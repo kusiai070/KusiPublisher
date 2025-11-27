@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KusiPublisher - Configuración</title>
+    <meta name="description" content="Configuración de KusiPublisher - API keys y preferencias">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="header">
+        <h1>🚀 KusiPublisher</h1>
+        <nav>
+            <a href="index.html">Dashboard</a>
+            <a href="editor.html">Editor</a>
+            <a href="history.html">Historial</a>
+            <a href="settings.html" class="active">Configuración</a>
+        </nav>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <main class="container">
+        <!-- Título de Sección -->
+        <section class="settings-header">
+            <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">⚙️ Configuración</h1>
+            <p style="color: var(--text-secondary); margin-bottom: 32px;">Personaliza tu experiencia en KusiPublisher</p>
+        </section>
+
+        <!-- Configuración de API -->
+        <section class="settings-section">
+            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">🔑 API Configuration</h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="geminiApiKey">Gemini API Key</label>
+                    <input 
+                        type="password" 
+                        id="geminiApiKey" 
+                        placeholder="Ingresa tu API key de Google Gemini"
+                        style="width: 100%;"
+                    >
+                    <small style="color: var(--text-muted); font-size: 12px;">
+                        Requerido para funciones básicas del editor
+                    </small>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="openaiApiKey">OpenAI API Key (Opcional)</label>
+                    <input 
+                        type="password" 
+                        id="openaiApiKey" 
+                        placeholder="Ingresa tu API key de OpenAI (opcional)"
+                        style="width: 100%;"
+                    >
+                    <small style="color: var(--text-muted); font-size: 12px;">
+                        Para funciones avanzadas y mejor calidad
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="anthropicApiKey">Anthropic API Key (Opcional)</label>
+                    <input 
+                        type="password" 
+                        id="anthropicApiKey" 
+                        placeholder="Ingresa tu API key de Anthropic (opcional)"
+                        style="width: 100%;"
+                    >
+                    <small style="color: var(--text-muted); font-size: 12px;">
+                        Para análisis avanzado y creatividad
+                    </small>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="activeProvider">Proveedor Activo</label>
+                    <select id="activeProvider" style="width: 100%;">
+                        <option value="gemini">Google Gemini</option>
+                        <option value="openai">OpenAI</option>
+                        <option value="anthropic">Anthropic</option>
+                    </select>
+                    <small style="color: var(--text-muted); font-size: 12px;">
+                        Selecciona el proveedor principal para las generaciones
+                    </small>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; display: flex; gap: 12px;">
+                <button id="saveApiSettings" class="btn btn-primary">
+                    💾 Guardar
+                </button>
+                <button id="testConnection" class="btn btn-secondary">
+                    🔌 Probar Conexión
+                </button>
+            </div>
+            
+            <!-- Estado de la Conexión -->
+            <div class="status-indicator" style="margin-top: 16px;">
+                <div class="status-dot" id="connectionStatus"></div>
+                <span id="connectionStatusText">Esperando configuración...</span>
+            </div>
+        </section>
+
+        <!-- Perfil de Voz -->
+        <section class="settings-section">
+            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">🎭 Voice Profile</h2>
+            
+            <div class="form-group">
+                <label for="voiceExamples">Ejemplos de tu voz (3-5 textos)</label>
+                <textarea 
+                    id="voiceExamples" 
+                    rows="6" 
+                    placeholder="Pega aquí 3-5 ejemplos de textos que reflejen tu estilo de escritura. Esto ayudará a KusiPublisher a entender y replicar tu voz auténtica.
+
+Ejemplo de formato:
+• Texto ejemplo 1
+• Texto ejemplo 2
+• Texto ejemplo 3"
+                    style="width: 100%; min-height: 120px;"
+                ></textarea>
+                <small style="color: var(--text-muted); font-size: 12px;">
+                    Cada ejemplo debe tener al menos 50 caracteres para un análisis efectivo
+                </small>
+            </div>
+            
+            <div style="margin-top: 20px; display: flex; gap: 12px;">
+                <button id="analyzeVoice" class="btn btn-primary">
+                    🔍 Analizar Voz
+                </button>
+                <button id="clearVoiceExamples" class="btn btn-secondary">
+                    🗑️ Limpiar
+                </button>
+            </div>
+            
+            <!-- Resultados del Análisis de Voz -->
+            <div id="voiceAnalysisResults" style="margin-top: 20px; display: none;">
+                <h4 style="margin-bottom: 12px;">📊 Análisis de Voz</h4>
+                <div style="background: rgba(0,0,0,0.2); padding: 16px; border-radius: 8px;">
+                    <div id="voiceTone" style="margin-bottom: 8px;">
+                        <strong>Tono detectado:</strong> <span id="toneValue">--</span>
+                    </div>
+                    <div id="voiceCharacteristics" style="margin-bottom: 8px;">
+                        <strong>Características:</strong> <span id="characteristicsValue">--</span>
+                    </div>
+                    <div id="voiceConfidence">
+                        <strong>Confianza:</strong> <span id="confidenceValue">--</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preferencias Generales -->
+        <section class="settings-section">
+            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">⚙️ Preferencias Generales</h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="defaultLanguage">Idioma por defecto</label>
+                    <select id="defaultLanguage" style="width: 100%;">
+                        <option value="es">Español</option>
+                        <option value="en">English</option>
+                        <option value="pt">Português</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="autoSaveInterval">Auto-guardado (minutos)</label>
+                    <select id="autoSaveInterval" style="width: 100%;">
+                        <option value="0">Desactivado</option>
+                        <option value="1">1 minuto</option>
+                        <option value="5" selected>5 minutos</option>
+                        <option value="10">10 minutos</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="enableNotifications" checked>
+                        Habilitar notificaciones
+                    </label>
+                    <small style="color: var(--text-muted); font-size: 12px; display: block;">
+                        Recibir notificaciones cuando se complete el procesamiento
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="enableSoundEffects" checked>
+                        Efectos de sonido
+                    </label>
+                    <small style="color: var(--text-muted); font-size: 12px; display: block;">
+                        Sonidos para acciones completadas
+                    </small>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="themeMode">Modo de tema</label>
+                    <select id="themeMode" style="width: 100%;">
+                        <option value="auto">Automático</option>
+                        <option value="dark" selected>Oscuro</option>
+                        <option value="light">Claro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editorFontSize">Tamaño de fuente del editor</label>
+                    <select id="editorFontSize" style="width: 100%;">
+                        <option value="14">Pequeño (14px)</option>
+                        <option value="16" selected>Normal (16px)</option>
+                        <option value="18">Grande (18px)</option>
+                        <option value="20">Muy grande (20px)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <button id="saveGeneralSettings" class="btn btn-primary">
+                    💾 Guardar Preferencias
+                </button>
+            </div>
+        </section>
+
+        <!-- Configuración Avanzada -->
+        <section class="settings-section">
+            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">🔧 Configuración Avanzada</h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="maxTokens">Máximo de tokens por generación</label>
+                    <input 
+                        type="number" 
+                        id="maxTokens" 
+                        value="2000" 
+                        min="100" 
+                        max="4000"
+                        style="width: 100%;"
+                    >
+                    <small style="color: var(--text-muted); font-size: 12px;">
+                        Controla la longitud máxima del contenido generado
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="temperature">Creatividad (Temperature)</label>
+                    <input 
+                        type="range" 
+                        id="temperature" 
+                        min="0" 
+                        max="1" 
+                        step="0.1" 
+                        value="0.7"
+                        style="width: 100%;"
+                    >
+                    <small style="color: var(--text-muted); font-size: 12px;">
+                        <span id="temperatureValue">0.7</span> - Valores más altos = más creativo
+                    </small>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cacheRetention">Retención de caché (días)</label>
+                    <select id="cacheRetention" style="width: 100%;">
+                        <option value="1">1 día</option>
+                        <option value="7">1 semana</option>
+                        <option value="30" selected>1 mes</option>
+                        <option value="90">3 meses</option>
+                        <option value="0">Sin límite</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="requestTimeout">Timeout de peticiones (segundos)</label>
+                    <select id="requestTimeout" style="width: 100%;">
+                        <option value="15">15 segundos</option>
+                        <option value="30" selected>30 segundos</option>
+                        <option value="60">1 minuto</option>
+                        <option value="120">2 minutos</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; display: flex; gap: 12px;">
+                <button id="saveAdvancedSettings" class="btn btn-primary">
+                    💾 Guardar Avanzadas
+                </button>
+                <button id="clearCache" class="btn btn-warning">
+                    🗑️ Limpiar Caché
+                </button>
+                <button id="resetSettings" class="btn btn-danger">
+                    🔄 Resetear Todo
+                </button>
+            </div>
+        </section>
+
+        <!-- Información del Sistema -->
+        <section class="settings-section">
+            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">ℹ️ Información del Sistema</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+                <div style="background: rgba(0,0,0,0.1); padding: 16px; border-radius: 8px;">
+                    <strong>Versión:</strong> KusiPublisher v1.0.0
+                </div>
+                <div style="background: rgba(0,0,0,0.1); padding: 16px; border-radius: 8px;">
+                    <strong>Build:</strong> 2025.11.27
+                </div>
+                <div style="background: rgba(0,0,0,0.1); padding: 16px; border-radius: 8px;">
+                    <strong>Entorno:</strong> <span id="environment">Desarrollo</span>
+                </div>
+                <div style="background: rgba(0,0,0,0.1); padding: 16px; border-radius: 8px;">
+                    <strong>User Agent:</strong> <span id="userAgent">--</span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <button id="exportSettings" class="btn btn-secondary">
+                    📤 Exportar Configuración
+                </button>
+                <button id="importSettings" class="btn btn-secondary">
+                    📥 Importar Configuración
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    
+    <!-- Script de Configuración -->
+    <script>
+        // Estado de configuración
+        let settingsState = {
+            apiKeys: {
+                gemini: '',
+                openai: '',
+                anthropic: ''
+            },
+            preferences: {
+                language: 'es',
+                autoSaveInterval: 5,
+                enableNotifications: true,
+                enableSoundEffects: true,
+                themeMode: 'dark',
+                editorFontSize: 16
+            },
+            advanced: {
+                maxTokens: 2000,
+                temperature: 0.7,
+                cacheRetention: 30,
+                requestTimeout: 30
+            },
+            voiceProfile: {
+                examples: [],
+                analysis: null
+            }
+        };
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSettings();
+        });
+
+        function initializeSettings() {
+            console.log('Inicializando Configuración...');
+            
+            loadSettings();
+            setupEventListeners();
+            updateUI();
+            
+            console.log('Configuración inicializada correctamente');
+        }
+
+        function setupEventListeners() {
+            // Botones de guardar
+            document.getElementById('saveApiSettings').addEventListener('click', saveApiSettings);
+            document.getElementById('testConnection').addEventListener('click', testConnection);
+            document.getElementById('analyzeVoice').addEventListener('click', analyzeVoice);
+            document.getElementById('clearVoiceExamples').addEventListener('click', clearVoiceExamples);
+            document.getElementById('saveGeneralSettings').addEventListener('click', saveGeneralSettings);
+            document.getElementById('saveAdvancedSettings').addEventListener('click', saveAdvancedSettings);
+            document.getElementById('clearCache').addEventListener('click', clearCache);
+            document.getElementById('resetSettings').addEventListener('click', resetSettings);
+            document.getElementById('exportSettings').addEventListener('click', exportSettings);
+            document.getElementById('importSettings').addEventListener('click', importSettings);
+            
+            // Control deslizante de temperatura
+            const temperatureSlider = document.getElementById('temperature');
+            if (temperatureSlider) {
+                temperatureSlider.addEventListener('input', function() {
+                    document.getElementById('temperatureValue').textContent = this.value;
+                });
+            }
+            
+            // Información del sistema
+            document.getElementById('userAgent').textContent = navigator.userAgent.substring(0, 50) + '...';
+            document.getElementById('environment').textContent = 
+                window.location.hostname === 'localhost' ? 'Desarrollo' : 'Producción';
+        }
+
+        function loadSettings() {
+            try {
+                // Cargar desde localStorage
+                const savedSettings = localStorage.getItem('kusi_settings');
+                if (savedSettings) {
+                    const parsed = JSON.parse(savedSettings);
+                    settingsState = { ...settingsState, ...parsed };
+                }
+            } catch (error) {
+                console.error('Error cargando configuración:', error);
+            }
+        }
+
+        function updateUI() {
+            // API Keys
+            document.getElementById('geminiApiKey').value = settingsState.apiKeys.gemini || '';
+            document.getElementById('openaiApiKey').value = settingsState.apiKeys.openai || '';
+            document.getElementById('anthropicApiKey').value = settingsState.apiKeys.anthropic || '';
+            document.getElementById('activeProvider').value = settingsState.preferences.activeProvider || 'gemini';
+            
+            // Preferencias generales
+            document.getElementById('defaultLanguage').value = settingsState.preferences.language || 'es';
+            document.getElementById('autoSaveInterval').value = settingsState.preferences.autoSaveInterval || 5;
+            document.getElementById('enableNotifications').checked = settingsState.preferences.enableNotifications !== false;
+            document.getElementById('enableSoundEffects').checked = settingsState.preferences.enableSoundEffects !== false;
+            document.getElementById('themeMode').value = settingsState.preferences.themeMode || 'dark';
+            document.getElementById('editorFontSize').value = settingsState.preferences.editorFontSize || 16;
+            
+            // Configuración avanzada
+            document.getElementById('maxTokens').value = settingsState.advanced.maxTokens || 2000;
+            document.getElementById('temperature').value = settingsState.advanced.temperature || 0.7;
+            document.getElementById('temperatureValue').textContent = settingsState.advanced.temperature || 0.7;
+            document.getElementById('cacheRetention').value = settingsState.advanced.cacheRetention || 30;
+            document.getElementById('requestTimeout').value = settingsState.advanced.requestTimeout || 30;
+            
+            // Perfil de voz
+            if (settingsState.voiceProfile.examples.length > 0) {
+                document.getElementById('voiceExamples').value = settingsState.voiceProfile.examples.join('\n• ');
+            }
+        }
+
+        function saveApiSettings() {
+            settingsState.apiKeys.gemini = document.getElementById('geminiApiKey').value;
+            settingsState.apiKeys.openai = document.getElementById('openaiApiKey').value;
+            settingsState.apiKeys.anthropic = document.getElementById('anthropicApiKey').value;
+            settingsState.preferences.activeProvider = document.getElementById('activeProvider').value;
+            
+            saveSettings();
+            showToast('✅ Configuración de API guardada correctamente', 'success');
+        }
+
+        async function testConnection() {
+            const statusDot = document.getElementById('connectionStatus');
+            const statusText = document.getElementById('connectionStatusText');
+            
+            statusDot.className = 'status-dot';
+            statusText.textContent = 'Probando conexión...';
+            
+            try {
+                const health = await window.KusiAPI.checkHealth();
+                
+                if (health && health.status === 'healthy') {
+                    statusDot.classList.add('connected');
+                    statusText.textContent = '✅ Conectado al backend correctamente';
+                    showToast('✅ Conexión exitosa con el backend', 'success');
+                } else {
+                    statusDot.classList.add('error');
+                    statusText.textContent = '❌ Backend no disponible';
+                    showToast('❌ No se pudo conectar con el backend', 'error');
+                }
+            } catch (error) {
+                statusDot.classList.add('error');
+                statusText.textContent = '❌ Error de conexión';
+                showToast('❌ Error probando conexión: ' + error.message, 'error');
+            }
+        }
+
+        async function analyzeVoice() {
+            const examplesText = document.getElementById('voiceExamples').value.trim();
+            
+            if (!examplesText) {
+                showToast('⚠️ Por favor ingresa ejemplos de tu voz', 'warning');
+                return;
+            }
+            
+            // Procesar ejemplos
+            const examples = examplesText.split('\n')
+                .map(line => line.replace(/^•\s*/, '').trim())
+                .filter(line => line.length > 50);
+            
+            if (examples.length < 3) {
+                showToast('⚠️ Por favor ingresa al menos 3 ejemplos (mínimo 50 caracteres cada uno)', 'warning');
+                return;
+            }
+            
+            settingsState.voiceProfile.examples = examples;
+            saveSettings();
+            
+            try {
+                showToast('🔍 Analizando tu voz...', 'info');
+                
+                const result = await window.KusiAPI.analyzeVoice(examples);
+                
+                if (result) {
+                    settingsState.voiceProfile.analysis = result;
+                    saveSettings();
+                    
+                    // Mostrar resultados
+                    document.getElementById('voiceAnalysisResults').style.display = 'block';
+                    document.getElementById('toneValue').textContent = result.tone || 'No detectado';
+                    document.getElementById('characteristicsValue').textContent = 
+                        result.vocabulary ? result.vocabulary.slice(0, 5).join(', ') : 'No detectado';
+                    document.getElementById('confidenceValue').textContent = 
+                        result.confidence ? `${Math.round(result.confidence * 100)}%` : 'No disponible';
+                    
+                    showToast('✅ Análisis de voz completado', 'success');
+                }
+            } catch (error) {
+                console.error('Error analizando voz:', error);
+                showToast('❌ Error analizando voz: ' + error.message, 'error');
+            }
+        }
+
+        function clearVoiceExamples() {
+            document.getElementById('voiceExamples').value = '';
+            document.getElementById('voiceAnalysisResults').style.display = 'none';
+            settingsState.voiceProfile.examples = [];
+            settingsState.voiceProfile.analysis = null;
+            saveSettings();
+            showToast('🗑️ Ejemplos de voz limpiados', 'success');
+        }
+
+        function saveGeneralSettings() {
+            settingsState.preferences.language = document.getElementById('defaultLanguage').value;
+            settingsState.preferences.autoSaveInterval = parseInt(document.getElementById('autoSaveInterval').value);
+            settingsState.preferences.enableNotifications = document.getElementById('enableNotifications').checked;
+            settingsState.preferences.enableSoundEffects = document.getElementById('enableSoundEffects').checked;
+            settingsState.preferences.themeMode = document.getElementById('themeMode').value;
+            settingsState.preferences.editorFontSize = parseInt(document.getElementById('editorFontSize').value);
+            
+            saveSettings();
+            showToast('✅ Preferencias generales guardadas', 'success');
+        }
+
+        function saveAdvancedSettings() {
+            settingsState.advanced.maxTokens = parseInt(document.getElementById('maxTokens').value);
+            settingsState.advanced.temperature = parseFloat(document.getElementById('temperature').value);
+            settingsState.advanced.cacheRetention = parseInt(document.getElementById('cacheRetention').value);
+            settingsState.advanced.requestTimeout = parseInt(document.getElementById('requestTimeout').value);
+            
+            saveSettings();
+            showToast('✅ Configuración avanzada guardada', 'success');
+        }
+
+        function clearCache() {
+            if (confirm('¿Estás seguro de que quieres limpiar todo el caché? Esto no se puede deshacer.')) {
+                window.KusiAPI.clearCache();
+                showToast('🗑️ Caché limpiado correctamente', 'success');
+            }
+        }
+
+        function resetSettings() {
+            if (confirm('¿Estás seguro de que quieres resetear TODA la configuración? Esto no se puede deshacer.')) {
+                localStorage.removeItem('kusi_settings');
+                location.reload();
+            }
+        }
+
+        function exportSettings() {
+            const settingsData = JSON.stringify(settingsState, null, 2);
+            const blob = new Blob([settingsData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `kusi-settings-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            URL.revokeObjectURL(url);
+            showToast('📤 Configuración exportada correctamente', 'success');
+        }
+
+        function importSettings() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedSettings = JSON.parse(e.target.result);
+                        settingsState = { ...settingsState, ...importedSettings };
+                        saveSettings();
+                        updateUI();
+                        showToast('📥 Configuración importada correctamente', 'success');
+                    } catch (error) {
+                        showToast('❌ Error importando configuración: ' + error.message, 'error');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+
+        function saveSettings() {
+            try {
+                localStorage.setItem('kusi_settings', JSON.stringify(settingsState));
+            } catch (error) {
+                console.error('Error guardando configuración:', error);
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

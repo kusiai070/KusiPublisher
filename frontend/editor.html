@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KusiPublisher - Editor Maestro</title>
+    <meta name="description" content="Editor principal de KusiPublisher para crear contenido multi-plataforma">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="header">
+        <h1>🚀 KusiPublisher</h1>
+        <nav>
+            <a href="index.html">Dashboard</a>
+            <a href="editor.html" class="active">Editor</a>
+            <a href="history.html">Historial</a>
+            <a href="settings.html">Configuración</a>
+        </nav>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <main class="container">
+        <!-- Layout Split Screen -->
+        <div class="editor-split">
+            <!-- Panel del Editor (Izquierda) -->
+            <div class="editor-panel">
+                <h2 style="margin-bottom: 20px; font-size: 18px;">✍️ Editor Principal</h2>
+                
+                <!-- Campo Título -->
+                <div class="form-group">
+                    <label for="inputTitle">Título del Contenido</label>
+                    <input 
+                        type="text" 
+                        id="inputTitle" 
+                        placeholder="Ingresa un título atractivo para tu contenido..."
+                        maxlength="100"
+                    >
+                </div>
+                
+                <!-- Campo Contenido -->
+                <div class="form-group">
+                    <label for="inputContent">Contenido Maestro</label>
+                    <textarea 
+                        id="inputContent" 
+                        placeholder="Escribe tu contenido aquí y se generará automáticamente para las 5 plataformas...
+
+💡 Tips para mejor contenido:
+• Sé específico y claro
+• Incluye datos o ejemplos
+• Piensa en tu audiencia objetivo
+• Agrega valor real
+• Mantén tu voz auténtica"
+                    ></textarea>
+                </div>
+                
+                <!-- Botones de Acción -->
+                <div class="form-group">
+                    <button id="btnGenerate" class="btn btn-primary">
+                        ✨ Generar Todo
+                    </button>
+                    <button id="btnQuality" class="btn btn-secondary">
+                        📊 Analizar Calidad
+                    </button>
+                    <button id="btnHumanize" class="btn btn-secondary">
+                        🤗 Humanizar
+                    </button>
+                    <button id="btnOracle" class="btn btn-secondary">
+                        🔮 Consultar Oráculo
+                    </button>
+                </div>
+                
+                <!-- Score Global de Calidad -->
+                <div class="quality-score">
+                    <h3>Quality Score Global</h3>
+                    <div class="score-bar-container-large">
+                        <div class="score-bar-large" style="width: 0%;">0%</div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+                        Score promedio de todas las plataformas
+                    </p>
+                </div>
+                
+                <!-- Secciones Adicionales -->
+                <div class="additional-sections">
+                    <!-- Keywords SEO -->
+                    <div class="section">
+                        <h4>🔍 SEO Keywords</h4>
+                        <ul id="keywordList" class="keyword-list">
+                            <li style="color: var(--text-muted);">• Las keywords aparecerán aquí...</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Ideas Visuales -->
+                    <div class="section">
+                        <h4>💡 Visual Ideas</h4>
+                        <ul id="ideaList" class="idea-list">
+                            <li>• Ilustración minimalista</li>
+                            <li>• Infografía de datos</li>
+                            <li>• Foto auténtica</li>
+                            <li>• Gráfico comparativo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Panel de Previews (Derecha) -->
+            <div class="previews-panel">
+                <!-- LinkedIn Preview -->
+                <div id="card-linkedin" class="preview-card">
+                    <div class="preview-header">
+                        <h3><span class="platform-icon">📘</span> LinkedIn</h3>
+                    </div>
+                    <div class="preview-content">
+                        Tu contenido optimizado para LinkedIn aparecerá aquí...
+                    </div>
+                    <div class="preview-footer">
+                        <button class="btn btn-copy" data-platform="linkedin">
+                            📋 Copiar
+                        </button>
+                        <div class="score-container">
+                            <span class="score-label">Score:</span>
+                            <div class="score-bar-container">
+                                <div class="score-bar" style="width: 0%;"></div>
+                            </div>
+                            <span class="score-value">0%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Twitter/X Preview -->
+                <div id="card-twitter" class="preview-card">
+                    <div class="preview-header">
+                        <h3><span class="platform-icon">🐦</span> Twitter/X</h3>
+                    </div>
+                    <div class="preview-content">
+                        Tu contenido optimizado para Twitter aparecerá aquí...
+                    </div>
+                    <div class="preview-footer">
+                        <button class="btn btn-copy" data-platform="twitter">
+                            📋 Copiar
+                        </button>
+                        <div class="score-container">
+                            <span class="score-label">Score:</span>
+                            <div class="score-bar-container">
+                                <div class="score-bar" style="width: 0%;"></div>
+                            </div>
+                            <span class="score-value">0%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Instagram Preview -->
+                <div id="card-instagram" class="preview-card">
+                    <div class="preview-header">
+                        <h3><span class="platform-icon">📷</span> Instagram</h3>
+                    </div>
+                    <div class="preview-content">
+                        Tu contenido optimizado para Instagram aparecerá aquí...
+                    </div>
+                    <div class="preview-footer">
+                        <button class="btn btn-copy" data-platform="instagram">
+                            📋 Copiar
+                        </button>
+                        <div class="score-container">
+                            <span class="score-label">Score:</span>
+                            <div class="score-bar-container">
+                                <div class="score-bar" style="width: 0%;"></div>
+                            </div>
+                            <span class="score-value">0%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Facebook Preview -->
+                <div id="card-facebook" class="preview-card">
+                    <div class="preview-header">
+                        <h3><span class="platform-icon">👥</span> Facebook</h3>
+                    </div>
+                    <div class="preview-content">
+                        Tu contenido optimizado para Facebook aparecerá aquí...
+                    </div>
+                    <div class="preview-footer">
+                        <button class="btn btn-copy" data-platform="facebook">
+                            📋 Copiar
+                        </button>
+                        <div class="score-container">
+                            <span class="score-label">Score:</span>
+                            <div class="score-bar-container">
+                                <div class="score-bar" style="width: 0%;"></div>
+                            </div>
+                            <span class="score-value">0%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Blog Preview -->
+                <div id="card-blog" class="preview-card">
+                    <div class="preview-header">
+                        <h3><span class="platform-icon">📝</span> Blog</h3>
+                    </div>
+                    <div class="preview-content">
+                        Tu contenido optimizado para Blog aparecerá aquí...
+                    </div>
+                    <div class="preview-footer">
+                        <button class="btn btn-copy" data-platform="blog">
+                            📋 Copiar
+                        </button>
+                        <div class="score-container">
+                            <span class="score-label">Score:</span>
+                            <div class="score-bar-container">
+                                <div class="score-bar" style="width: 0%;"></div>
+                            </div>
+                            <span class="score-value">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/editor.js"></script>
+    
+    <!-- Script de inicialización -->
+    <script>
+        // Configuración inicial del editor
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar que todos los scripts se cargaron correctamente
+            if (window.KusiUtils && window.KusiAPI && window.EditorJS) {
+                console.log('✅ Todos los módulos cargados correctamente');
+            } else {
+                console.error('❌ Error: Algunos módulos no se cargaron');
+            }
+        });
+    </script>
+</body>
+</html>

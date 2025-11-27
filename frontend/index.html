@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KusiPublisher - Dashboard</title>
+    <meta name="description" content="Dashboard principal de KusiPublisher - Gestión de contenido multi-plataforma">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="header">
+        <h1>🚀 KusiPublisher</h1>
+        <nav>
+            <a href="index.html" class="active">Dashboard</a>
+            <a href="editor.html">Editor</a>
+            <a href="history.html">Historial</a>
+            <a href="settings.html">Configuración</a>
+        </nav>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <main class="container">
+        <!-- Métricas Principales -->
+        <section class="dashboard-section">
+            <h2 style="margin-bottom: 20px; font-size: 24px; font-weight: 600;">📊 Resumen de Rendimiento</h2>
+            <div id="metricsContainer" class="dashboard-grid">
+                <!-- Las métricas se cargarán dinámicamente -->
+                <div class="metric-card">
+                    <div class="metric-value">156</div>
+                    <div class="metric-label">Total Content</div>
+                    <div class="metric-change positive">+12%</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-value">89</div>
+                    <div class="metric-label">Published</div>
+                    <div class="metric-change positive">+8%</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-value">87%</div>
+                    <div class="metric-label">Avg Score</div>
+                    <div class="metric-change positive">+5%</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-value">12</div>
+                    <div class="metric-label">This Week</div>
+                    <div class="metric-change positive">+15%</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actividad Reciente -->
+        <section class="activity-section">
+            <h2 style="margin-bottom: 20px; font-size: 20px; font-weight: 600;">🕒 Actividad Reciente</h2>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <div class="activity-content">
+                        <div class="activity-title">📘 LinkedIn post about AI trends</div>
+                        <div class="activity-meta">Hace 2 horas • LinkedIn • <span class="status published">publicado</span></div>
+                    </div>
+                    <div class="activity-score" style="background-color: var(--success);">92</div>
+                    <div class="activity-actions">
+                        <button class="btn btn-secondary btn-sm activity-action-btn" data-action="view" data-activity-id="1">Ver</button>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-content">
+                        <div class="activity-title">📝 Blog outline for SEO strategies</div>
+                        <div class="activity-meta">Hace 4 horas • Blog • <span class="status draft">borrador</span></div>
+                    </div>
+                    <div class="activity-score" style="background-color: var(--primary);">85</div>
+                    <div class="activity-actions">
+                        <button class="btn btn-secondary btn-sm activity-action-btn" data-action="view" data-activity-id="2">Ver</button>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-content">
+                        <div class="activity-title">🐦 Twitter thread about productivity</div>
+                        <div class="activity-meta">Ayer • Twitter • <span class="status published">publicado</span></div>
+                    </div>
+                    <div class="activity-score" style="background-color: var(--warning);">78</div>
+                    <div class="activity-actions">
+                        <button class="btn btn-secondary btn-sm activity-action-btn" data-action="view" data-activity-id="3">Ver</button>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-content">
+                        <div class="activity-title">📷 Instagram carousel design tips</div>
+                        <div class="activity-meta">Ayer • Instagram • <span class="status scheduled">programado</span></div>
+                    </div>
+                    <div class="activity-score" style="background-color: var(--primary);">88</div>
+                    <div class="activity-actions">
+                        <button class="btn btn-secondary btn-sm activity-action-btn" data-action="view" data-activity-id="4">Ver</button>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-content">
+                        <div class="activity-title">👥 Facebook community engagement post</div>
+                        <div class="activity-meta">Hace 2 días • Facebook • <span class="status published">publicado</span></div>
+                    </div>
+                    <div class="activity-score" style="background-color: var(--primary);">82</div>
+                    <div class="activity-actions">
+                        <button class="btn btn-secondary btn-sm activity-action-btn" data-action="view" data-activity-id="5">Ver</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Acciones Rápidas -->
+        <section class="quick-actions-section">
+            <h2 style="margin-bottom: 20px; font-size: 20px; font-weight: 600;">⚡ Acciones Rápidas</h2>
+            <div id="quickActions" class="quick-actions">
+                <button class="btn btn-primary quick-action-btn" data-action="create" data-link="editor.html">
+                    <span style="font-size: 24px; margin-right: 8px;">✨</span>
+                    <div>
+                        <div style="font-weight: 600;">Create Content</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Start creating new content</div>
+                    </div>
+                </button>
+                
+                <button class="btn btn-secondary quick-action-btn" data-action="plan" data-link="#">
+                    <span style="font-size: 24px; margin-right: 8px;">📋</span>
+                    <div>
+                        <div style="font-weight: 600;">Plan Campaign</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Plan your content strategy</div>
+                    </div>
+                </button>
+                
+                <button class="btn btn-secondary quick-action-btn" data-action="analytics" data-link="#">
+                    <span style="font-size: 24px; margin-right: 8px;">📊</span>
+                    <div>
+                        <div style="font-weight: 600;">View Analytics</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Check your performance</div>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Estado del Sistema -->
+        <section class="system-status-section" style="margin-top: 40px;">
+            <div class="settings-section">
+                <h3 style="margin-bottom: 16px;">🔌 Estado del Sistema</h3>
+                <div class="status-indicator">
+                    <div class="status-dot" id="backendStatus"></div>
+                    <span id="backendStatusText">Verificando conexión...</span>
+                </div>
+                <div style="margin-top: 12px; font-size: 12px; color: var(--text-muted);">
+                    Última actualización: <span id="lastUpdate">--</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+    
+    <!-- Script de inicialización -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar conexión con backend
+            checkBackendStatus();
+            
+            // Actualizar timestamp
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
+        });
+        
+        async function checkBackendStatus() {
+            const statusDot = document.getElementById('backendStatus');
+            const statusText = document.getElementById('backendStatusText');
+            
+            try {
+                const health = await window.KusiAPI.checkHealth();
+                
+                if (health && health.status === 'healthy') {
+                    statusDot.classList.add('connected');
+                    statusText.textContent = '✅ Backend conectado correctamente';
+                } else {
+                    statusDot.classList.add('error');
+                    statusText.textContent = '❌ Backend no disponible';
+                }
+            } catch (error) {
+                statusDot.classList.add('error');
+                statusText.textContent = '❌ Error de conexión con backend';
+            }
+        }
+    </script>
+</body>
+</html>

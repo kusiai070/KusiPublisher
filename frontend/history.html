@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KusiPublisher - Historial</title>
+    <meta name="description" content="Historial de contenido creado con KusiPublisher">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header Principal -->
+    <header class="header">
+        <h1>🚀 KusiPublisher</h1>
+        <nav>
+            <a href="index.html">Dashboard</a>
+            <a href="editor.html">Editor</a>
+            <a href="history.html" class="active">Historial</a>
+            <a href="settings.html">Configuración</a>
+        </nav>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <main class="container">
+        <!-- Header de Sección -->
+        <section class="history-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h1 style="font-size: 28px; font-weight: 700;">📚 Historial de Contenido</h1>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <!-- Buscador -->
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            placeholder="Buscar contenido..."
+                            style="padding: 10px 16px; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.3); color: var(--text-primary); width: 250px;"
+                        >
+                    </div>
+                    
+                    <!-- Filtros -->
+                    <select id="platformFilter" style="padding: 10px 16px; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.3); color: var(--text-primary);">
+                        <option value="">Todas las plataformas</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="twitter">Twitter/X</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="blog">Blog</option>
+                    </select>
+                    
+                    <select id="dateFilter" style="padding: 10px 16px; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.3); color: var(--text-primary);">
+                        <option value="">Todas las fechas</option>
+                        <option value="today">Hoy</option>
+                        <option value="week">Esta semana</option>
+                        <option value="month">Este mes</option>
+                        <option value="year">Este año</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lista de Historial -->
+        <section class="history-list">
+            <!-- Items del historial -->
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-title">📘 Los beneficios de la IA en el marketing digital</div>
+                    <div class="history-meta">📅 27 Nov 2025, 4:30 AM • LinkedIn • Score: 92</div>
+                    <div class="history-excerpt">
+                        La inteligencia artificial está revolucionando la forma en que los marketers abordan sus estrategias. Desde la personalización hasta la automatización...
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <button class="btn btn-secondary btn-sm history-action-btn" data-action="view" data-id="1">
+                        👁️ Ver
+                    </button>
+                    <button class="btn btn-primary btn-sm history-action-btn" data-action="edit" data-id="1">
+                        ✏️ Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm history-action-btn" data-action="delete" data-id="1">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-title">📝 Guía completa de SEO local para pequeñas empresas</div>
+                    <div class="history-meta">📅 26 Nov 2025, 10:15 PM • Blog • Score: 85</div>
+                    <div class="history-excerpt">
+                        El SEO local es crucial para pequeñas empresas que buscan atraer clientes en su área geográfica. Esta guía completa te mostrará...
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <button class="btn btn-secondary btn-sm history-action-btn" data-action="view" data-id="2">
+                        👁️ Ver
+                    </button>
+                    <button class="btn btn-primary btn-sm history-action-btn" data-action="edit" data-id="2">
+                        ✏️ Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm history-action-btn" data-action="delete" data-id="2">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-title">🐦 5 hábitos que transformarán tu productividad en 2025</div>
+                    <div class="history-meta">📅 26 Nov 2025, 3:45 PM • Twitter • Score: 78</div>
+                    <div class="history-excerpt">
+                        1/5 🧵 La productividad no se trata de hacer más, sino de hacer lo que importa. Aquí están los hábitos que cambiaron mi vida...
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <button class="btn btn-secondary btn-sm history-action-btn" data-action="view" data-id="3">
+                        👁️ Ver
+                    </button>
+                    <button class="btn btn-primary btn-sm history-action-btn" data-action="edit" data-id="3">
+                        ✏️ Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm history-action-btn" data-action="delete" data-id="3">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-title">📷 Cómo crear contenido viral en Instagram (sin trucos)</div>
+                    <div class="history-meta">📅 25 Nov 2025, 8:20 AM • Instagram • Score: 88</div>
+                    <div class="history-excerpt">
+                        ✨ El verdadero secreto del contenido viral no está en los trucos, sino en entender a tu audiencia. Aquí te comparto mi estrategia...
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <button class="btn btn-secondary btn-sm history-action-btn" data-action="view" data-id="4">
+                        👁️ Ver
+                    </button>
+                    <button class="btn btn-primary btn-sm history-action-btn" data-action="edit" data-id="4">
+                        ✏️ Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm history-action-btn" data-action="delete" data-id="4">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-title">👥 ¿Cuál es el mayor desafío de tu negocio este mes?</div>
+                    <div class="history-meta">📅 24 Nov 2025, 2:15 PM • Facebook • Score: 82</div>
+                    <div class="history-excerpt">
+                        Querida comunidad, estoy creando contenido para ayudarles a crecer sus negocios. ¿Cuál es su mayor desafío actual? 👇
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <button class="btn btn-secondary btn-sm history-action-btn" data-action="view" data-id="5">
+                        👁️ Ver
+                    </button>
+                    <button class="btn btn-primary btn-sm history-action-btn" data-action="edit" data-id="5">
+                        ✏️ Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm history-action-btn" data-action="delete" data-id="5">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-title">📘 Estrategias de networking efectivo en LinkedIn</div>
+                    <div class="history-meta">📅 23 Nov 2025, 9:30 AM • LinkedIn • Score: 95</div>
+                    <div class="history-excerpt">
+                        El networking no se trata de recolectar contactos, sino de construir relaciones genuinas. Aquí comparto mi enfoque estratégico...
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <button class="btn btn-secondary btn-sm history-action-btn" data-action="view" data-id="6">
+                        👁️ Ver
+                    </button>
+                    <button class="btn btn-primary btn-sm history-action-btn" data-action="edit" data-id="6">
+                        ✏️ Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm history-action-btn" data-action="delete" data-id="6">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-title">📝 Cómo medir el ROI de tu contenido en 2025</div>
+                    <div class="history-meta">📅 22 Nov 2025, 11:45 AM • Blog • Score: 91</div>
+                    <div class="history-excerpt">
+                        Medir el ROI del contenido es esencial para justificar la inversión. En esta guía práctica te muestro las métricas que realmente importan...
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <button class="btn btn-secondary btn-sm history-action-btn" data-action="view" data-id="7">
+                        👁️ Ver
+                    </button>
+                    <button class="btn btn-primary btn-sm history-action-btn" data-action="edit" data-id="7">
+                        ✏️ Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm history-action-btn" data-action="delete" data-id="7">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="history-item">
+                <div class="history-content">
+                    <div class="history-title">🐦 La verdad sobre el "hustle culture" (que nadie cuenta)</div>
+                    <div class="history-meta">📅 21 Nov 2025, 7:15 PM • Twitter • Score: 85</div>
+                    <div class="history-excerpt">
+                        1/8 🧵 Trabajar más no significa lograr más. La cultura del hustle nos ha hecho creer que el agotamiento es una medalla de honor...
+                    </div>
+                </div>
+                <div class="history-actions">
+                    <button class="btn btn-secondary btn-sm history-action-btn" data-action="view" data-id="8">
+                        👁️ Ver
+                    </button>
+                    <button class="btn btn-primary btn-sm history-action-btn" data-action="edit" data-id="8">
+                        ✏️ Editar
+                    </button>
+                    <button class="btn btn-danger btn-sm history-action-btn" data-action="delete" data-id="8">
+                        🗑️ Eliminar
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Paginación -->
+        <section class="pagination-section" style="margin-top: 32px; text-align: center;">
+            <div style="display: inline-flex; gap: 8px; align-items: center;">
+                <button class="btn btn-secondary btn-sm" disabled>Anterior</button>
+                <span style="padding: 8px 12px; background: var(--primary); color: white; border-radius: 6px;">1</span>
+                <button class="btn btn-secondary btn-sm">2</button>
+                <button class="btn btn-secondary btn-sm">3</button>
+                <span style="padding: 0 8px;">...</span>
+                <button class="btn btn-secondary btn-sm">12</button>
+                <button class="btn btn-secondary btn-sm">Siguiente</button>
+            </div>
+            <div style="margin-top: 12px; font-size: 14px; color: var(--text-muted);">
+                Mostrando 1-8 de 95 resultados
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    
+    <!-- Script de Historial -->
+    <script>
+        // Datos mock del historial
+        const mockHistoryData = [
+            {
+                id: 1,
+                title: "Los beneficios de la IA en el marketing digital",
+                platform: "linkedin",
+                content: "La inteligencia artificial está revolucionando la forma en que los marketers abordan sus estrategias...",
+                score: 92,
+                timestamp: "2025-11-27T04:30:00Z",
+                status: "published"
+            },
+            {
+                id: 2,
+                title: "Guía completa de SEO local para pequeñas empresas",
+                platform: "blog",
+                content: "El SEO local es crucial para pequeñas empresas que buscan atraer clientes en su área geográfica...",
+                score: 85,
+                timestamp: "2025-11-26T22:15:00Z",
+                status: "draft"
+            }
+            // ... más datos
+        ];
+
+        // Estado del historial
+        let historyState = {
+            items: mockHistoryData,
+            filteredItems: mockHistoryData,
+            currentPage: 1,
+            itemsPerPage: 8,
+            searchTerm: '',
+            platformFilter: '',
+            dateFilter: ''
+        };
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeHistory();
+        });
+
+        function initializeHistory() {
+            console.log('Inicializando Historial...');
+            
+            setupEventListeners();
+            renderHistoryItems();
+            
+            console.log('Historial inicializado correctamente');
+        }
+
+        function setupEventListeners() {
+            // Buscador
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', debounce(handleSearch, 300));
+            }
+            
+            // Filtros
+            const platformFilter = document.getElementById('platformFilter');
+            const dateFilter = document.getElementById('dateFilter');
+            
+            if (platformFilter) {
+                platformFilter.addEventListener('change', handleFilter);
+            }
+            
+            if (dateFilter) {
+                dateFilter.addEventListener('change', handleFilter);
+            }
+            
+            // Botones de acción
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('history-action-btn')) {
+                    e.preventDefault();
+                    const action = e.target.dataset.action;
+                    const itemId = e.target.dataset.id;
+                    handleHistoryAction(action, itemId);
+                }
+            });
+        }
+
+        function handleSearch(event) {
+            historyState.searchTerm = event.target.value.toLowerCase();
+            filterItems();
+        }
+
+        function handleFilter() {
+            const platformFilter = document.getElementById('platformFilter');
+            const dateFilter = document.getElementById('dateFilter');
+            
+            historyState.platformFilter = platformFilter ? platformFilter.value : '';
+            historyState.dateFilter = dateFilter ? dateFilter.value : '';
+            
+            filterItems();
+        }
+
+        function filterItems() {
+            historyState.filteredItems = historyState.items.filter(item => {
+                // Filtro de búsqueda
+                const matchesSearch = !historyState.searchTerm || 
+                    item.title.toLowerCase().includes(historyState.searchTerm) ||
+                    item.content.toLowerCase().includes(historyState.searchTerm);
+                
+                // Filtro de plataforma
+                const matchesPlatform = !historyState.platformFilter || 
+                    item.platform === historyState.platformFilter;
+                
+                // Filtro de fecha
+                const matchesDate = !historyState.dateFilter || 
+                    checkDateFilter(item.timestamp, historyState.dateFilter);
+                
+                return matchesSearch && matchesPlatform && matchesDate;
+            });
+            
+            historyState.currentPage = 1;
+            renderHistoryItems();
+        }
+
+        function checkDateFilter(timestamp, filter) {
+            const itemDate = new Date(timestamp);
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            
+            switch (filter) {
+                case 'today':
+                    return itemDate >= today;
+                case 'week':
+                    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+                    return itemDate >= weekAgo;
+                case 'month':
+                    const monthAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+                    return itemDate >= monthAgo;
+                case 'year':
+                    const yearAgo = new Date(today.getTime() - 365 * 24 * 60 * 60 * 1000);
+                    return itemDate >= yearAgo;
+                default:
+                    return true;
+            }
+        }
+
+        function renderHistoryItems() {
+            const historyList = document.querySelector('.history-list');
+            if (!historyList) return;
+            
+            const startIndex = (historyState.currentPage - 1) * historyState.itemsPerPage;
+            const endIndex = startIndex + historyState.itemsPerPage;
+            const itemsToShow = historyState.filteredItems.slice(startIndex, endIndex);
+            
+            if (itemsToShow.length === 0) {
+                historyList.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
+                        <h3>No se encontraron resultados</h3>
+                        <p>Intenta ajustar tus filtros de búsqueda</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const itemsHTML = itemsToShow.map(item => createHistoryItemHTML(item)).join('');
+            
+            // Mantener los elementos existentes y agregar los nuevos
+            const existingItems = historyList.querySelectorAll('.history-item');
+            existingItems.forEach(item => item.remove());
+            
+            historyList.innerHTML = itemsHTML;
+            
+            updatePaginationInfo();
+        }
+
+        function createHistoryItemHTML(item) {
+            const platformConfig = {
+                linkedin: { icon: '📘', name: 'LinkedIn' },
+                twitter: { icon: '🐦', name: 'Twitter/X' },
+                instagram: { icon: '📷', name: 'Instagram' },
+                facebook: { icon: '👥', name: 'Facebook' },
+                blog: { icon: '📝', name: 'Blog' }
+            };
+            
+            const platform = platformConfig[item.platform] || { icon: '📄', name: 'Unknown' };
+            const timeAgo = formatDate(item.timestamp, 'relative');
+            const scoreColor = getScoreColor(item.score);
+            
+            return `
+                <div class="history-item">
+                    <div class="history-content">
+                        <div class="history-title">${platform.icon} ${item.title}</div>
+                        <div class="history-meta">📅 ${timeAgo} • ${platform.name} • Score: ${item.score}</div>
+                        <div class="history-excerpt">${truncateText(item.content, 150)}</div>
+                    </div>
+                    <div class="history-actions">
+                        <button class="btn btn-secondary btn-sm history-action-btn" data-action="view" data-id="${item.id}">
+                            👁️ Ver
+                        </button>
+                        <button class="btn btn-primary btn-sm history-action-btn" data-action="edit" data-id="${item.id}">
+                            ✏️ Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm history-action-btn" data-action="delete" data-id="${item.id}">
+                            🗑️ Eliminar
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updatePaginationInfo() {
+            const totalPages = Math.ceil(historyState.filteredItems.length / historyState.itemsPerPage);
+            const startItem = (historyState.currentPage - 1) * historyState.itemsPerPage + 1;
+            const endItem = Math.min(historyState.currentPage * historyState.itemsPerPage, historyState.filteredItems.length);
+            
+            const paginationInfo = document.querySelector('.pagination-section');
+            if (paginationInfo) {
+                const infoText = paginationInfo.querySelector('div:last-child');
+                if (infoText) {
+                    infoText.textContent = `Mostrando ${startItem}-${endItem} de ${historyState.filteredItems.length} resultados`;
+                }
+            }
+        }
+
+        function handleHistoryAction(action, itemId) {
+            console.log(`Acción ${action} en item ${itemId}`);
+            
+            const item = historyState.items.find(i => i.id == itemId);
+            if (!item) return;
+            
+            switch (action) {
+                case 'view':
+                    showItemModal(item);
+                    break;
+                    
+                case 'edit':
+                    // Redirigir al editor con los datos del item
+                    const params = new URLSearchParams({
+                        title: item.title,
+                        content: item.content,
+                        platform: item.platform
+                    });
+                    window.location.href = `editor.html?${params.toString()}`;
+                    break;
+                    
+                case 'delete':
+                    if (confirm('¿Estás seguro de que quieres eliminar este contenido?')) {
+                        deleteItem(itemId);
+                    }
+                    break;
+                    
+                default:
+                    console.warn('Acción no reconocida:', action);
+            }
+        }
+
+        function showItemModal(item) {
+            const platformConfig = {
+                linkedin: { icon: '📘', name: 'LinkedIn' },
+                twitter: { icon: '🐦', name: 'Twitter/X' },
+                instagram: { icon: '📷', name: 'Instagram' },
+                facebook: { icon: '👥', name: 'Facebook' },
+                blog: { icon: '📝', name: 'Blog' }
+            };
+            
+            const platform = platformConfig[item.platform] || { icon: '📄', name: 'Unknown' };
+            const formattedDate = formatDate(item.timestamp, 'datetime');
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>${platform.icon} ${item.title}</h3>
+                        <button class="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="activity-detail">
+                            <p><strong>Plataforma:</strong> ${platform.name}</p>
+                            <p><strong>Estado:</strong> ${item.status}</p>
+                            <p><strong>Score:</strong> ${item.score}/100</p>
+                            <p><strong>Creado:</strong> ${formattedDate}</p>
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <h4>Contenido:</h4>
+                            <div style="background: rgba(0,0,0,0.2); padding: 16px; border-radius: 8px; max-height: 300px; overflow-y: auto;">
+                                ${item.content}
+                            </div>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn btn-primary history-action-btn" data-action="edit" data-id="${item.id}">
+                                Editar
+                            </button>
+                            <button class="btn btn-secondary" onclick="copyToClipboard('${item.content.replace(/'/g, "\\'")}')">
+                                Copiar
+                            </button>
+                            <button class="btn btn-danger history-action-btn" data-action="delete" data-id="${item.id}">
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Event listeners del modal
+            modal.querySelector('.modal-close').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+            
+            setTimeout(() => modal.classList.add('show'), 10);
+        }
+
+        function deleteItem(itemId) {
+            historyState.items = historyState.items.filter(item => item.id != itemId);
+            historyState.filteredItems = historyState.filteredItems.filter(item => item.id != itemId);
+            renderHistoryItems();
+            showToast('✅ Contenido eliminado correctamente', 'success');
+        }
+
+        function formatDate(timestamp, format = 'relative') {
+            const d = new Date(timestamp);
+            const now = new Date();
+            
+            if (format === 'relative') {
+                const diffInSeconds = Math.floor((now - d) / 1000);
+                
+                if (diffInSeconds < 60) return 'Justo ahora';
+                if (diffInSeconds < 3600) {
+                    const minutes = Math.floor(diffInSeconds / 60);
+                    return `Hace ${minutes} minuto${minutes > 1 ? 's' : ''}`;
+                }
+                if (diffInSeconds < 86400) {
+                    const hours = Math.floor(diffInSeconds / 3600);
+                    return `Hace ${hours} hora${hours > 1 ? 's' : ''}`;
+                }
+                if (diffInSeconds < 604800) {
+                    const days = Math.floor(diffInSeconds / 86400);
+                    return `Hace ${days} día${days > 1 ? 's' : ''}`;
+                }
+                
+                return d.toLocaleDateString('es-ES', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            }
+            
+            if (format === 'datetime') {
+                return d.toLocaleString('es-ES', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            return d.toLocaleString();
+        }
+
+        function getScoreColor(score) {
+            if (score >= 85) return 'var(--success)';
+            if (score >= 70) return 'var(--primary)';
+            if (score >= 50) return 'var(--warning)';
+            return 'var(--danger)';
+        }
+
+        function truncateText(text, length = 100, suffix = '...') {
+            if (text.length <= length) return text;
+            return text.substring(0, length - suffix.length) + suffix;
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('✅ Contenido copiado al portapapeles', 'success');
+            } catch (error) {
+                console.error('Error copiando al portapapeles:', error);
+                showToast('❌ Error al copiar contenido', 'error');
+            }
+        }
+    </script>
+</body>
+</html>
