@@ -66,12 +66,17 @@ class Oracle:
            - Creative format experiments
            - Cross-platform synergies
         
-        Provide specific, actionable insights that can be immediately implemented.
-        Include examples where relevant and consider multiple scenarios.
+                Provide specific, actionable insights that can be immediately implemented.
         
-        Structure your response to be both comprehensive and digestible,
-        with clear sections and actionable takeaways.
-        """
+                Include examples where relevant and consider multiple scenarios.
+        
+                Structure your response to be both comprehensive and digestible,
+        
+                with clear sections and actionable takeaways.
+        
+                All response should be in Spanish.
+        
+                """
         
         consultation = await self.llm.generate_content(prompt, max_tokens=3000, temperature=0.4)
         

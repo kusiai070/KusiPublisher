@@ -794,3 +794,104 @@ body {
 
 .hidden { display: none; }
 .invisible { visibility: hidden; }
+
+/* --- Modal Styles for Oracle --- */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: var(--card-bg); /* Use existing theme variable */
+    color: var(--text-primary); /* Use existing theme variable */
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid var(--card-border); /* Use existing theme variable */
+    width: 80%; /* Could be more responsive */
+    max-width: 800px; /* Max width */
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.modal-content h2 {
+    color: var(--primary); /* Use existing theme variable */
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.modal-content .oracle-question {
+    font-style: italic;
+    color: var(--text-secondary); /* Use existing theme variable */
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--card-border); /* Use existing theme variable */
+    padding-bottom: 10px;
+}
+
+.modal-content .oracle-response {
+    white-space: pre-wrap; /* Preserve whitespace and allow wrapping */
+    word-wrap: break-word; /* Break long words */
+    max-height: 60vh; /* Max height for scroll */
+    overflow-y: auto; /* Scroll if content is too long */
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.3); /* Slightly lighter background, consistent with existing */
+    border-radius: 4px;
+    border: 1px solid var(--card-border); /* Use existing theme variable */
+}
+
+.modal-content .modal-actions {
+    text-align: right;
+}
+
+.close-button {
+    color: var(--text-secondary); /* Use existing theme variable */
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: var(--primary); /* Use existing theme variable */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* Darker overlay */
+}
+
+/* Basic styling for the copy button within the modal */
+#copyOracleResponse {
+    background-color: var(--primary); /* Use primary color from theme */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+#copyOracleResponse:hover {
+    background-color: var(--primary-hover); /* Use existing theme variable */
+}

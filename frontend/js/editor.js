@@ -293,8 +293,8 @@ async function analyzeAllQuality() {
           editorState.scores[platform] = analysis;
           updateScoreDisplay(platform, analysis.quality_score);
           console.log('✅ Score actualizado:', platform, analysis.quality_score);
-          analyzedCount++;
-          console.log(`✅ Calidad analizada para ${platform}: ${analysis.score}%`);
+          analyzedCount++; // Asegurarse de que esta línea esté bien identada
+          console.log(`✅ Calidad analizada para ${platform}: ${analysis.quality_score}%`);
         }
       } catch (error) {
         console.log('ERROR COMPLETO:', error); // 6
@@ -399,6 +399,7 @@ function updatePreviewError(platform, error) {
  * Actualiza la visualización del score
  */
 function updateScoreDisplay(platform, score) {
+  console.log(`DEBUG: updateScoreDisplay llamado para ${platform}. Recibido score:`, score);
   const card = document.getElementById(`card-${platform}`);
   const scoreBar = card?.querySelector('.score-bar');
   const scoreValue = card?.querySelector('.score-value');
@@ -553,13 +554,19 @@ async function openOracleModal() {
   updateGenerateButtonState(); // Actualizar el estado de los botones
 
   try {
+    console.log('DEBUG: Llamando a KusiAPI.consultOracle con pregunta:', userQuestion);
     const result = await window.KusiAPI.consultOracle(userQuestion);
     
-    if (result && result.analysis) {
-      showToast('✅ Consulta al Oráculo exitosa. Revisa la consola para el análisis.', 'success');
-      console.log('🔮 Respuesta del Oráculo:', result.analysis);
+    if (result && result.consultation) {
+      showToast('✅ Consulta al Oráculo exitosa. Revisa la consola para el análisis detallado.', 'success');
+      console.log('🔮 Respuesta del Oráculo:', result); // Loguear el objeto completo
+      
+      // Mostrar la respuesta en el modal
+      displayOracleResponseInModal(userQuestion, result);
+
     } else {
-      throw new Error('Respuesta inválida del Oráculo');
+      console.log('DEBUG: Respuesta de KusiAPI.consultOracle (falló la condición):', result); // Log para ver qué llega
+      throw new Error('Respuesta inválida del Oráculo: El análisis principal no se encontró.');
     }
   } catch (error) {
     console.error('❌ Error al consultar el Oráculo:', error);
@@ -690,3 +697,62 @@ window.EditorJS = {
 };
 
 console.log('EditorJS cargado correctamente');
+
+/**
+ * Muestra la respuesta del Oráculo en un modal
+ */
+function displayOracleResponseInModal(question, response) {
+    const oracleModal = document.getElementById('oracleModal');
+    const oracleQuestionDiv = document.getElementById('oracleQuestion');
+    const oracleResponseDiv = document.getElementById('oracleResponse');
+    const copyButton = document.getElementById('copyOracleResponse');
+
+    if (!oracleModal || !oracleQuestionDiv || !oracleResponseDiv) {
+        console.error('ERROR: Elementos del modal del Oráculo no encontrados.');
+        showToast('❌ Error interno al mostrar la respuesta del Oráculo.', 'error');
+        return;
+    }
+
+    oracleQuestionDiv.textContent = `Pregunta: "${question}"`;
+    oracleResponseDiv.innerHTML = marked.parse(response.consultation); // Renderizar Markdown a HTML
+
+    copyButton.onclick = async () => {
+        try {
+            await navigator.clipboard.writeText(response.consultation);
+            showToast('📋 Respuesta copiada al portapapeles', 'success');
+        } catch (err) {
+            console.error('Error al copiar la respuesta del Oráculo:', err);
+            showToast('❌ Error al copiar al portapapeles', 'error');
+        }
+    };
+
+    showModal(oracleModal);
+}
+
+/**
+ * Muestra un modal genérico
+ */
+function showModal(modalElement) {
+    modalElement.style.display = 'block';
+    document.getElementById('modalOverlay').style.display = 'block';
+}
+
+/**
+ * Oculta un modal genérico
+ */
+function hideModal(modalElement) {
+    modalElement.style.display = 'none';
+    document.getElementById('modalOverlay').style.display = 'none';
+}
+
+// Configurar event listeners para cerrar el modal del Oráculo
+document.addEventListener('DOMContentLoaded', () => {
+    const oracleModal = document.getElementById('oracleModal');
+    if (oracleModal) {
+        oracleModal.querySelector('.close-button').onclick = () => hideModal(oracleModal);
+        document.getElementById('modalOverlay').onclick = () => hideModal(oracleModal);
+        window.onclick = (event) => {
+            if (event.target == oracleModal) { hideModal(oracleModal); }
+        };
+    }
+});

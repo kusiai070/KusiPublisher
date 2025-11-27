@@ -229,7 +229,26 @@
         </div>
     </main>
 
+    <!-- Modal para el Oráculo -->
+    <div id="oracleModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>🔮 Consulta del Oráculo</h2>
+            <div id="oracleQuestion" class="oracle-question"></div>
+            <div id="oracleResponse" class="oracle-response">
+                <!-- Aquí se mostrará la respuesta extensa -->
+            </div>
+            <div class="modal-actions">
+                <button id="copyOracleResponse" class="btn btn-primary">📋 Copiar Respuesta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay para el modal -->
+    <div id="modalOverlay" class="modal-overlay"></div>
+
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/api.js"></script>
     <script src="js/editor.js"></script>

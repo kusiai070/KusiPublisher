@@ -152,7 +152,7 @@ async function optimizePlatform(content, platform) {
  */
 async function consultOracle(query, context = {}) {
   return apiPost('/oracle/consult', {
-    query: query,
+    question: query, // Cambiar 'query' a 'question'
     context: context
   });
 }
