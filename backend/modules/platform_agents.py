@@ -139,14 +139,23 @@ class PlatformAgents:
         
         try:
             import re
-            # Primero, intentar encontrar el JSON envuelto en bloques de código markdown
-            json_match = re.search(r'```json\n(.*?)```', response_text, re.DOTALL)
-            if not json_match:
-                # Si no se encuentra markdown, buscar el primer y último corchete para extraer el JSON
-                json_match = re.search(r'\{(.*?)\}', response_text, re.DOTALL)
             
+            json_str = None
+            
+            # Intento 1: Encontrar el JSON envuelto en bloques de código markdown ```json
+            json_match = re.search(r'```json\n(.*?)```', response_text, re.DOTALL)
             if json_match:
                 json_str = json_match.group(1)
+            
+            if not json_str:
+                # Intento 2: Si no se encuentra markdown, buscar el primer y último corchete para extraer el JSON
+                # Esto es más agresivo y asume que el JSON es el bloque principal
+                start_brace = response_text.find('{')
+                end_brace = response_text.rfind('}')
+                if start_brace != -1 and end_brace != -1 and start_brace < end_brace:
+                    json_str = response_text[start_brace : end_brace + 1]
+            
+            if json_str:
                 data = json.loads(json_str)
                 optimized_content = data.get("optimized_content", response_text)
                 explanations = data.get("explanations", "No se proporcionaron explicaciones.")

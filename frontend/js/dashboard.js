@@ -2,97 +2,35 @@
    KUSIPUBLISHER - DASHBOARD.JS - Lógica del Dashboard Principal
    ============================================================ */
 
-// Datos mock para el dashboard (serán reemplazados por datos reales)
-const MOCK_DASHBOARD_DATA = {
-  metrics: {
-    totalContent: 156,
-    totalChange: 12,
-    publishedContent: 89,
-    publishedChange: 8,
-    averageScore: 87,
-    scoreChange: 5,
-    thisWeekContent: 12,
-    weekChange: 15
-  },
-  recentActivity: [
-    {
-      id: 1,
-      platform: 'linkedin',
-      title: 'LinkedIn post about AI trends',
-      timestamp: '2025-11-27T14:30:00Z',
-      score: 92,
-      status: 'published'
-    },
-    {
-      id: 2,
-      platform: 'blog',
-      title: 'Blog outline for SEO strategies',
-      timestamp: '2025-11-27T12:15:00Z',
-      score: 85,
-      status: 'draft'
-    },
-    {
-      id: 3,
-      platform: 'twitter',
-      title: 'Twitter thread about productivity',
-      timestamp: '2025-11-26T18:45:00Z',
-      score: 78,
-      status: 'published'
-    },
-    {
-      id: 4,
-      platform: 'instagram',
-      title: 'Instagram carousel design tips',
-      timestamp: '2025-11-26T16:20:00Z',
-      score: 88,
-      status: 'scheduled'
-    },
-    {
-      id: 5,
-      platform: 'facebook',
-      title: 'Facebook community engagement post',
-      timestamp: '2025-11-25T20:30:00Z',
-      score: 82,
-      status: 'published'
-    }
-  ],
-  quickActions: [
-    {
-      id: 'create',
-      title: 'Create Content',
-      description: 'Start creating new content',
-      icon: '✨',
-      link: 'editor.html'
-    },
-    {
-      id: 'plan',
-      title: 'Plan Campaign',
-      description: 'Plan your content strategy',
-      icon: '📋',
-      link: '#'
-    },
-    {
-      id: 'analytics',
-      title: 'View Analytics',
-      description: 'Check your performance',
-      icon: '📊',
-      link: '#'
-    }
-  ]
-};
-
-// Configuración de plataformas
-const PLATFORM_CONFIG = {
-  linkedin: { name: 'LinkedIn', icon: '📘', color: '#0077B5' },
-  twitter: { name: 'Twitter/X', icon: '🐦', color: '#1DA1F2' },
-  instagram: { name: 'Instagram', icon: '📷', color: '#E4405F' },
-  facebook: { name: 'Facebook', icon: '👥', color: '#1877F2' },
-  blog: { name: 'Blog', icon: '📝', color: '#FF6B35' }
-};
-
 // Estado del dashboard
 let dashboardState = {
-  data: MOCK_DASHBOARD_DATA,
+  data: {
+    metrics: {},
+    recentActivity: [],
+    quickActions: [
+      {
+        id: 'create',
+        title: 'Create Content',
+        description: 'Start creating new content',
+        icon: '✨',
+        link: 'editor.html'
+      },
+      {
+        id: 'plan',
+        title: 'Plan Campaign',
+        description: 'Plan your content strategy',
+        icon: '📋',
+        link: '#'
+      },
+      {
+        id: 'analytics',
+        title: 'View Analytics',
+        description: 'Check your performance',
+        icon: '📊',
+        link: '#'
+      }
+    ]
+  },
   isLoading: false,
   lastUpdate: null
 };
@@ -108,13 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeDashboard() {
   console.log('Inicializando Dashboard...');
   
-  // Renderizar métricas
-  renderMetrics();
-  
-  // Renderizar actividad reciente
-  renderRecentActivity();
-  
-  // Renderizar acciones rápidas
+  // Renderizar acciones rápidas (estas no dependen de datos externos)
   renderQuickActions();
   
   // Configurar event listeners
@@ -376,6 +308,13 @@ function showActivityModal(activity) {
  * Intenta cargar datos reales del backend
  */
 async function loadRealData() {
+  console.log('DEBUG: loadRealData intentando usar window.KusiAPI:', window.KusiAPI);
+  if (dashboardState.isLoading) return;
+
+  dashboardState.isLoading = true;
+  console.log('Cargando datos reales del dashboard...');
+  showToast('🔄 Cargando datos del dashboard...', 'info');
+
   try {
     // Verificar si el backend está disponible
     const health = await window.KusiAPI.checkHealth();
@@ -383,16 +322,41 @@ async function loadRealData() {
     if (health && health.status === 'healthy') {
       console.log('Backend disponible, cargando datos reales...');
       
-      // Aquí irían las llamadas reales a la API
-      // Por ahora usamos datos mock
-      dashboardState.lastUpdate = new Date().toISOString();
+      // Cargar métricas
+      const metricsSummary = await window.KusiAPI.getMetricsSummary();
+      console.log('Métricas recibidas:', metricsSummary);
+
+      // Mapear métricas del backend a la estructura del frontend
+      dashboardState.data.metrics = {
+        totalContent: metricsSummary.total_content,
+        totalChange: parseInt(metricsSummary.total_content_change.replace('%', '')),
+        publishedContent: metricsSummary.published_content,
+        publishedChange: parseInt(metricsSummary.published_content_change.replace('%', '')),
+        averageScore: metricsSummary.average_quality_score,
+        scoreChange: metricsSummary.average_quality_score_change, // Usar el cambio real
+        thisWeekContent: metricsSummary.content_this_week,
+        weekChange: metricsSummary.content_this_week_change // Usar el cambio real
+      };
+      renderMetrics(); // Renderizar métricas después de cargar datos reales
+
+      // Cargar actividad reciente
+      const recentContent = await window.KusiAPI.getRecentContent();
+      console.log('Actividad reciente recibida:', recentContent);
+      // Asumiendo que recentContent es un array de objetos con la estructura deseada
+      dashboardState.data.recentActivity = recentContent;
+      renderRecentActivity(); // Renderizar actividad después de cargar datos reales
       
-      showToast('✅ Datos sincronizados con el backend', 'success');
+      dashboardState.lastUpdate = new Date().toISOString();
+      showToast('✅ Datos del dashboard sincronizados con el backend', 'success');
     } else {
-      console.log('Usando datos locales (backend no disponible)');
+      console.warn('Backend no disponible, usando datos locales.');
+      showToast('⚠️ Backend no disponible. Usando datos locales.', 'warning');
     }
   } catch (error) {
-    console.warn('Error cargando datos reales, usando datos mock:', error);
+    console.error('❌ Error cargando datos reales del dashboard:', error);
+    showToast('❌ Error al cargar datos del dashboard. Usando datos locales.', 'error');
+  } finally {
+    dashboardState.isLoading = false;
   }
 }
 
@@ -405,16 +369,16 @@ function formatTimeAgo(timestamp) {
   const diffInSeconds = Math.floor((now - time) / 1000);
   
   if (diffInSeconds < 60) {
-    return 'Just now';
+    return 'Ahora mismo';
   } else if (diffInSeconds < 3600) {
     const minutes = Math.floor(diffInSeconds / 60);
-    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    return `Hace ${minutes} minuto${minutes > 1 ? 's' : ''}`;
   } else if (diffInSeconds < 86400) {
     const hours = Math.floor(diffInSeconds / 3600);
-    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    return `Hace ${hours} hora${hours > 1 ? 's' : ''}`;
   } else {
     const days = Math.floor(diffInSeconds / 86400);
-    return `${days} day${days > 1 ? 's' : ''} ago`;
+    return `Hace ${days} día${days > 1 ? 's' : ''}`;
   }
 }
 

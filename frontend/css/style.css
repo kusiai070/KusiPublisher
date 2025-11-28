@@ -895,3 +895,31 @@ body {
 #copyOracleResponse:hover {
     background-color: var(--primary-hover); /* Use existing theme variable */
 }
+
+/* --- Humanization Indicator Styles --- */
+.humanized-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; /* Make it a circle */
+    background-color: var(--text-muted); /* Default subtle color */
+    color: var(--text-primary);
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 8px;
+    transition: background-color 0.3s ease;
+    cursor: help; /* Indicate it's informative */
+    opacity: 0.7;
+}
+
+.humanized-indicator.is-humanized {
+    background-color: var(--success); /* Green when humanized */
+    opacity: 1;
+}
+
+.humanized-indicator::before {
+    content: 'H'; /* Display 'H' for Humanized */
+}
+

@@ -257,6 +257,52 @@ async def save_metrics(
     db.refresh(metric)
     return metric
 
+@app.get("/metrics/summary")
+async def get_metrics_summary():
+    """
+    Returns a summary of key performance metrics for the dashboard.
+    (Currently returns dummy data)
+    """
+    return {
+        "total_content": 156,
+        "published_content": 89,
+        "average_quality_score": 87,
+        "content_this_week": 12,
+        "total_content_change": "+12%",
+        "published_content_change": "+8%"
+    }
+
+
+@app.get("/content/recent")
+async def get_recent_content():
+    """
+    Returns a list of recently generated/published content.
+    (Currently returns dummy data)
+    """
+    return [
+        {
+            "id": 1,
+            "title": "📘 LinkedIn post about AI trends",
+            "platform": "LinkedIn",
+            "status": "publicado",
+            "timestamp": "Hace 2 horas"
+        },
+        {
+            "id": 2,
+            "title": "📝 Blog outline for SEO strategies",
+            "platform": "Blog",
+            "status": "borrador",
+            "timestamp": "Hace 4 horas"
+        },
+        {
+            "id": 3,
+            "title": "🐦 Twitter thread about productivity",
+            "platform": "Twitter",
+            "status": "publicado",
+            "timestamp": "Ayer"
+        }
+    ]
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -36,90 +36,14 @@
             <h2 style="margin-bottom: 20px; font-size: 24px; font-weight: 600;">📊 Resumen de Rendimiento</h2>
             <div id="metricsContainer" class="dashboard-grid">
                 <!-- Las métricas se cargarán dinámicamente -->
-                <div class="metric-card">
-                    <div class="metric-value">156</div>
-                    <div class="metric-label">Total Content</div>
-                    <div class="metric-change positive">+12%</div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-value">89</div>
-                    <div class="metric-label">Published</div>
-                    <div class="metric-change positive">+8%</div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-value">87%</div>
-                    <div class="metric-label">Avg Score</div>
-                    <div class="metric-change positive">+5%</div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-value">12</div>
-                    <div class="metric-label">This Week</div>
-                    <div class="metric-change positive">+15%</div>
-                </div>
             </div>
         </section>
 
         <!-- Actividad Reciente -->
         <section class="activity-section">
             <h2 style="margin-bottom: 20px; font-size: 20px; font-weight: 600;">🕒 Actividad Reciente</h2>
-            <div class="activity-list">
-                <div class="activity-item">
-                    <div class="activity-content">
-                        <div class="activity-title">📘 LinkedIn post about AI trends</div>
-                        <div class="activity-meta">Hace 2 horas • LinkedIn • <span class="status published">publicado</span></div>
-                    </div>
-                    <div class="activity-score" style="background-color: var(--success);">92</div>
-                    <div class="activity-actions">
-                        <button class="btn btn-secondary btn-sm activity-action-btn" data-action="view" data-activity-id="1">Ver</button>
-                    </div>
-                </div>
-                
-                <div class="activity-item">
-                    <div class="activity-content">
-                        <div class="activity-title">📝 Blog outline for SEO strategies</div>
-                        <div class="activity-meta">Hace 4 horas • Blog • <span class="status draft">borrador</span></div>
-                    </div>
-                    <div class="activity-score" style="background-color: var(--primary);">85</div>
-                    <div class="activity-actions">
-                        <button class="btn btn-secondary btn-sm activity-action-btn" data-action="view" data-activity-id="2">Ver</button>
-                    </div>
-                </div>
-                
-                <div class="activity-item">
-                    <div class="activity-content">
-                        <div class="activity-title">🐦 Twitter thread about productivity</div>
-                        <div class="activity-meta">Ayer • Twitter • <span class="status published">publicado</span></div>
-                    </div>
-                    <div class="activity-score" style="background-color: var(--warning);">78</div>
-                    <div class="activity-actions">
-                        <button class="btn btn-secondary btn-sm activity-action-btn" data-action="view" data-activity-id="3">Ver</button>
-                    </div>
-                </div>
-                
-                <div class="activity-item">
-                    <div class="activity-content">
-                        <div class="activity-title">📷 Instagram carousel design tips</div>
-                        <div class="activity-meta">Ayer • Instagram • <span class="status scheduled">programado</span></div>
-                    </div>
-                    <div class="activity-score" style="background-color: var(--primary);">88</div>
-                    <div class="activity-actions">
-                        <button class="btn btn-secondary btn-sm activity-action-btn" data-action="view" data-activity-id="4">Ver</button>
-                    </div>
-                </div>
-                
-                <div class="activity-item">
-                    <div class="activity-content">
-                        <div class="activity-title">👥 Facebook community engagement post</div>
-                        <div class="activity-meta">Hace 2 días • Facebook • <span class="status published">publicado</span></div>
-                    </div>
-                    <div class="activity-score" style="background-color: var(--primary);">82</div>
-                    <div class="activity-actions">
-                        <button class="btn btn-secondary btn-sm activity-action-btn" data-action="view" data-activity-id="5">Ver</button>
-                    </div>
-                </div>
+            <div id="recentActivity" class="activity-list">
+                <!-- La actividad reciente se cargará dinámicamente -->
             </div>
         </section>
 
@@ -173,35 +97,6 @@
     <script src="js/api.js"></script>
     <script src="js/dashboard.js"></script>
     
-    <!-- Script de inicialización -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Verificar conexión con backend
-            checkBackendStatus();
-            
-            // Actualizar timestamp
-            document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
-        });
-        
-        async function checkBackendStatus() {
-            const statusDot = document.getElementById('backendStatus');
-            const statusText = document.getElementById('backendStatusText');
-            
-            try {
-                const health = await window.KusiAPI.checkHealth();
-                
-                if (health && health.status === 'healthy') {
-                    statusDot.classList.add('connected');
-                    statusText.textContent = '✅ Backend conectado correctamente';
-                } else {
-                    statusDot.classList.add('error');
-                    statusText.textContent = '❌ Backend no disponible';
-                }
-            } catch (error) {
-                statusDot.classList.add('error');
-                statusText.textContent = '❌ Error de conexión con backend';
-            }
-        }
-    </script>
+
 </body>
 </html>

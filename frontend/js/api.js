@@ -128,7 +128,32 @@ async function researchSEO(topic, platform) {
  * @returns {Promise<Object>} - Contenido humanizado
  */
 async function humanizeContent(content) {
-  return apiPost('/humanize', {text: content});
+  try {
+    const jsonResponse = await apiPost('/humanize', {text: content});
+
+    // Validar que la respuesta sea un objeto y contenga la clave 'humanized'
+    if (typeof jsonResponse !== 'object' || !jsonResponse.humanized) {
+      console.error('ERROR: La respuesta de /humanize no es un objeto JSON válido con clave humanized:', jsonResponse);
+      throw new Error('Respuesta inesperada del servidor de humanización.');
+    }
+
+    const humanizedString = jsonResponse.humanized;
+
+    // Extraer contenido humanizado
+    const humanizedMatch = humanizedString.match(/### Contenido Humanizado:\n\n\"(.*?)\"\n\n---/s);
+    const humanized_content = humanizedMatch && humanizedMatch[1] ? humanizedMatch[1].trim() : humanizedString.trim(); // Fallback a toda la respuesta si no se encuentra el match
+
+    // Extraer explicaciones
+    const explanationsMatch = humanizedString.match(/### Explicaciones de los Cambios y Adiciones:\n\n(.*)/s);
+    const explanations = explanationsMatch && explanationsMatch[1] ? explanationsMatch[1].trim() : 'No se encontraron explicaciones.';
+
+    return {
+      humanized_content: humanized_content,
+      explanations: explanations
+    };
+  } catch (error) {
+    handleApiError(error, '/humanize');
+  }
 }
 
 /**
@@ -205,6 +230,23 @@ async function switchLLM(provider) {
   return apiPost('/llm/switch', {
     provider: provider
   });
+}
+
+/**
+ * Obtiene un resumen de métricas clave para el dashboard.
+ * @returns {Promise<Object>} - Objeto con métricas del sistema.
+ */
+async function getMetricsSummary() {
+  return apiGet('/metrics/summary');
+}
+
+/**
+ * Obtiene una lista de contenido reciente generado.
+ * @param {number} limit - Número máximo de elementos a retornar.
+ * @returns {Promise<Array<Object>>} - Array de objetos de contenido reciente.
+ */
+async function getRecentContent(limit = 5) {
+  return apiGet(`/content/recent?limit=${limit}`);
 }
 
 /**
@@ -408,6 +450,9 @@ window.KusiAPI = {
   getLLMProviders,
   switchLLM,
   checkHealth,
+  // Dashboard functions
+  getMetricsSummary,
+  getRecentContent,
   
   // Funciones batch
   generateForAllPlatforms,
@@ -424,4 +469,4 @@ window.KusiAPI = {
 };
 
 // Log de inicialización
-console.log('KusiAPI inicializado correctamente');
+console.log('KusiAPI inicializado correctamente. Contenido de window.KusiAPI:', window.KusiAPI);

@@ -257,6 +257,7 @@ async function generatePlatformContent(platform, title, content) {
     
     if (result && typeof result.generated_content === 'string') { // Permitir string vacío
       console.log(`✅ Contenido generado para ${platform}`);
+      result.isHumanized = false; // Inicializar como no humanizado
       return result;
     } else {
       throw new Error('Respuesta inválida del servidor');
@@ -335,6 +336,7 @@ async function humanizeAllContent() {
         if (result && result.humanized_content) {
           // Actualizar contenido humanizado
           editorState.platforms[platform].generated_content = result.humanized_content;
+          editorState.platforms[platform].isHumanized = true; // Marcar como humanizado
           updatePreview(platform, editorState.platforms[platform]);
           humanizedCount++;
           console.log(`✅ Contenido humanizado para ${platform}`);
@@ -364,7 +366,8 @@ async function humanizeAllContent() {
 function updatePreview(platform, contentData) {
   const card = document.getElementById(`card-${platform}`);
   const contentElement = card?.querySelector('.preview-content');
-  
+  const humanizedIndicator = document.getElementById(`humanized-${platform}`); // Obtener el indicador
+
   console.log(`DEBUG: updatePreview llamado para ${platform}. contentData:`, contentData);
   console.log(`DEBUG: contentElement para ${platform}:`, contentElement);
   console.log(`DEBUG: contentData.generated_content para ${platform}:`, contentData.generated_content);
@@ -373,6 +376,17 @@ function updatePreview(platform, contentData) {
     console.log(`DEBUG: *** Actualizando preview con contenido para ${platform} ***`, contentData.generated_content.substring(0, 100) + '...');
     contentElement.textContent = contentData.generated_content;
     
+    // Actualizar el indicador de humanización
+    if (humanizedIndicator) {
+        if (contentData.isHumanized) {
+            humanizedIndicator.classList.add('is-humanized');
+            humanizedIndicator.title = 'Contenido Humanizado';
+        } else {
+            humanizedIndicator.classList.remove('is-humanized');
+            humanizedIndicator.title = 'Contenido Original';
+        }
+    }
+
     // Animar la actualización
     card.style.transform = 'scale(1.02)';
     setTimeout(() => {
