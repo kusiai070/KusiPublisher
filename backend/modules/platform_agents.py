@@ -21,6 +21,21 @@ class PlatformAgents:
                     "Include a clear call-to-action"
                 ]
             },
+            "linkedin_article": {
+                "max_chars": 125000, # LinkedIn article max characters (approx 125,000)
+                "ideal_chars": 4000,
+                "hashtag_limit": 5,
+                "tone": "Análisis Profesional y Educativo",
+                "features": ["articles", "long-form content", "thought leadership"],
+                "best_practices": [
+                    "Proporcionar análisis y conocimientos en profundidad",
+                    "Utilizar títulos y subtítulos claros",
+                    "Incluir datos y referencias externas",
+                    "Ofrecer consejos prácticos o nuevas perspectivas",
+                    "Optimizar para la legibilidad en escritorio y móvil",
+                    "Incluir una fuerte llamada a la acción o pregunta de debate"
+                ]
+            },
             "twitter": {
                 "max_chars": 280,
                 "ideal_chars": 100,
@@ -117,7 +132,7 @@ class PlatformAgents:
         """
         
         # Ajustar parámetros según plataforma
-        if platform == 'blog':
+        if platform == 'blog' or platform == 'linkedin_article':
             max_tokens_llm = 8000
             temperature_llm = 0.7
         else:

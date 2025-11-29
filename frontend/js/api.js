@@ -78,12 +78,13 @@ async function apiPost(endpoint, data) {
  * @param {string} content - Contenido maestro
  * @returns {Promise<Object>} - Contenido generado y metadata
  */
-async function generateContent(platform, title, content) {
+async function generateContent(platform, title, content, journalismMode = false) { // Add journalismMode parameter with default
   return apiPost('/content', {
     campaign_id: 1,
     title: title,
     original_text: content,
-    platform: platform
+    platform: platform,
+    journalism_mode: journalismMode // Include journalism_mode in the request body
   });
 }
 
@@ -132,7 +133,7 @@ async function humanizeContent(content) {
     const jsonResponse = await apiPost('/humanize', {text: content});
 
     // Validar que la respuesta sea un objeto y contenga la clave 'humanized'
-    if (typeof jsonResponse !== 'object' || !jsonResponse.humanized) {
+    if (typeof jsonResponse !== 'object' || jsonResponse.humanized === undefined) {
       console.error('ERROR: La respuesta de /humanize no es un objeto JSON válido con clave humanized:', jsonResponse);
       throw new Error('Respuesta inesperada del servidor de humanización.');
     }

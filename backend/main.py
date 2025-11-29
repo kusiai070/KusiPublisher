@@ -21,6 +21,7 @@ from modules.humanizer import Humanizer
 from modules.platform_agents import PlatformAgents
 from modules.oracle import Oracle
 from modules.visual_generator import VisualGenerator
+from modules.journalism_agent import JournalismAgent # Importar JournalismAgent
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -35,7 +36,8 @@ async def lifespan(app: FastAPI):
         "humanizer": Humanizer(app.state.llm_manager),
         "platform_agents": PlatformAgents(app.state.llm_manager),
         "oracle": Oracle(app.state.llm_manager),
-        "visual_generator": VisualGenerator(app.state.llm_manager)
+        "visual_generator": VisualGenerator(app.state.llm_manager),
+        "journalism": JournalismAgent(app.state.llm_manager) # Inicializar JournalismAgent
     }
     yield
     # Shutdown
@@ -79,24 +81,40 @@ class ContentRequest(BaseModel):
     title: str
     original_text: str
     platform: str
+    journalism_mode: bool = False # Añadir journalism_mode
 
 # Content management
 @app.post("/content")
 async def create_content(request: ContentRequest, db: Session = Depends(get_db)):
     print(f"\n--- DEBUG: Received request for /content ---")
     try:
-        # Generar contenido optimizado con LLM
-        platform_agents = app.state.modules["platform_agents"]
-        print(f"--- DEBUG: Calling optimize_for_platform with original_text (first 50 chars): {request.original_text[:50]}... and platform: {request.platform} ---")
-        optimized = await platform_agents.optimize_for_platform(
-            request.original_text, 
-            request.platform
-        )
-        print(f"=== OPTIMIZED RESULT FOR {request.platform} ===")
-        print(f"Type: {type(optimized)}")
-        print(f"Content (first 200 chars): {str(optimized)[:200]}")
-        print(f"Keys (if dict): {optimized.keys() if isinstance(optimized, dict) else 'N/A'}")
-        print(f"--- DEBUG: optimize_for_platform returned optimized optimized content. ---")
+        if request.journalism_mode:
+            print(f"--- DEBUG: Journalism mode enabled for platform: {request.platform} ---")
+            journalism_agent = app.state.modules["journalism"]
+            # For journalism mode, we use the original_text as topic for generation
+            generated = await journalism_agent.generate_journalistic_content(
+                topic=request.original_text, 
+                platform=request.platform,
+                style="opinion" # User specified "opinion" style
+            )
+            optimized_content = generated["content"]
+            explanations = f"Contenido periodístico generado en estilo: {generated['style']}"
+            
+        else:
+            # Generar contenido optimizado con LLM
+            platform_agents = app.state.modules["platform_agents"]
+            print(f"--- DEBUG: Calling optimize_for_platform with original_text (first 50 chars): {request.original_text[:50]}... and platform: {request.platform} ---")
+            optimized = await platform_agents.optimize_for_platform(
+                request.original_text, 
+                request.platform
+            )
+            print(f"=== OPTIMIZED RESULT FOR {request.platform} ===")
+            print(f"Type: {type(optimized)}")
+            print(f"Content (first 200 chars): {str(optimized)[:200]}")
+            print(f"Keys (if dict): {optimized.keys() if isinstance(optimized, dict) else 'N/A'}")
+            print(f"--- DEBUG: optimize_for_platform returned optimized optimized content. ---")
+            optimized_content = optimized.get("optimized_content", request.original_text)
+            explanations = optimized.get("explanations", "Contenido optimizado para la plataforma.")
         
         # Guardar en DB con contenido generado
         content = crud.create_content_piece(
@@ -108,7 +126,8 @@ async def create_content(request: ContentRequest, db: Session = Depends(get_db))
         )
         
         # Actualizar con texto optimizado
-        content.current_text = optimized.get("optimized_content", request.original_text)
+        content.current_text = optimized_content
+        content.metadata = {"explanations": explanations, "journalism_mode": request.journalism_mode}
         
         print(f"=== GUARDANDO EN DB ===")
         print(f"current_text (first 200): {content.current_text[:200]}")
@@ -124,7 +143,8 @@ async def create_content(request: ContentRequest, db: Session = Depends(get_db))
             "id": content.id,
             "generated_content": content.current_text,
             "platform": content.platform,
-            "title": content.title
+            "title": content.title,
+            "explanations": explanations
         }
     except Exception as e:
         print(f"!!!!!!!!!!!!!! ERROR IN /content !!!!!!!!!!!!!!")

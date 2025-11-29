@@ -17,7 +17,8 @@ let editorState = {
   keywords: [],
   visualIdeas: [],
   isGenerating: false,
-  lastGenerated: null
+  lastGenerated: null,
+  journalismMode: false // Añadir variable para el modo periodista
 };
 
 // Configuración de plataformas
@@ -27,6 +28,12 @@ const PLATFORM_CONFIG = {
     icon: '📘',
     color: '#0077B5',
     description: 'Contenido profesional y networking'
+  },
+  linkedin_article: {
+    name: 'LinkedIn (Artículo)',
+    icon: '📄', // Document icon
+    color: '#0077B5', // Same LinkedIn blue
+    description: 'Artículos de liderazgo y análisis profundo'
   },
   twitter: {
     name: 'Twitter/X',
@@ -115,6 +122,18 @@ function setupEventListeners() {
     btnOracle.addEventListener('click', openOracleModal);
   }
   
+  // Botón de Modo Periodista
+  const journalismModeBtn = document.getElementById('journalism-mode-btn');
+  if (journalismModeBtn) {
+    journalismModeBtn.addEventListener('change', handleJournalismModeToggle);
+  }
+  
+  // Botón de Limpiar Editor
+  const btnClearEditor = document.getElementById('btnClearEditor');
+  if (btnClearEditor) {
+    btnClearEditor.addEventListener('click', clearEditorState);
+  }
+  
   // Botones de copiar en cada preview
   setupCopyButtons();
   
@@ -147,6 +166,104 @@ function handleContentChange(event) {
   if (editorState.content.length > 50) {
     debounce(suggestKeywords, 1000)();
   }
+}
+
+/**
+ * Maneja el toggle del modo periodista
+ */
+function handleJournalismModeToggle(event) {
+  editorState.journalismMode = event.target.checked;
+  console.log('Modo Periodista:', editorState.journalismMode ? 'ACTIVADO' : 'DESACTIVADO');
+  // Aquí puedes añadir lógica adicional para actualizar la UI si es necesario
+  // Por ejemplo, cambiar el texto del label o el color del botón
+  showToast(editorState.journalismMode ? '✅ Modo Periodista ACTIVADO' : '❌ Modo Periodista DESACTIVADO', editorState.journalismMode ? 'success' : 'warning');
+}
+
+/**
+ * Limpia todos los campos del editor y resetea el estado
+ */
+function clearEditorState() {
+  // Limpiar inputs del editor
+  const titleInput = document.getElementById('inputTitle');
+  const contentInput = document.getElementById('inputContent');
+  if (titleInput) titleInput.value = '';
+  if (contentInput) contentInput.value = '';
+
+  // Resetear editorState
+  editorState.title = '';
+  editorState.content = '';
+  editorState.platforms = {
+    linkedin: null,
+    linkedin_article: null, // Clear for new linkedin article
+    twitter: null,
+    instagram: null,
+    facebook: null,
+    blog: null
+  };
+  editorState.scores = {};
+  editorState.keywords = [];
+  editorState.visualIdeas = [];
+  editorState.isGenerating = false;
+  editorState.lastGenerated = null;
+  editorState.journalismMode = false; // Reset journalism mode
+
+  // Resetear toggle de modo periodista en la UI
+  const journalismModeBtn = document.getElementById('journalism-mode-btn');
+  if (journalismModeBtn) {
+    journalismModeBtn.checked = false;
+  }
+
+  // Limpiar previews y scores en la UI
+  Object.keys(PLATFORM_CONFIG).forEach(platform => {
+    const card = document.getElementById(`card-${platform}`);
+    const contentElement = card?.querySelector('.preview-content');
+    const scoreBar = card?.querySelector('.score-bar');
+    const scoreValue = card?.querySelector('.score-value');
+    const humanizedIndicator = document.getElementById(`humanized-${platform}`);
+
+    if (contentElement) contentElement.textContent = `Tu contenido optimizado para ${PLATFORM_CONFIG[platform].name} aparecerá aquí...`;
+    if (scoreBar) {
+      scoreBar.style.width = '0%';
+      scoreBar.className = 'score-bar'; // Reset classes
+    }
+    if (scoreValue) scoreValue.textContent = '0%';
+    if (humanizedIndicator) {
+      humanizedIndicator.classList.remove('is-humanized');
+      humanizedIndicator.title = '';
+    }
+  });
+
+  // Limpiar score global
+  const globalScoreBar = document.querySelector('.score-bar-large');
+  if (globalScoreBar) {
+    globalScoreBar.style.width = '0%';
+    globalScoreBar.textContent = '0%';
+  }
+
+  // Limpiar keywords
+  const keywordsList = document.getElementById('keywordList');
+  if (keywordsList) {
+    keywordsList.innerHTML = '<li style="color: var(--text-muted);">• Las keywords aparecerán aquí...</li>';
+  }
+
+  // Limpiar visual ideas (if needed, or reset to default)
+  const ideaList = document.getElementById('ideaList');
+  if (ideaList) {
+      ideaList.innerHTML = `
+        <li>• Ilustración minimalista</li>
+        <li>• Infografía de datos</li>
+        <li>• Foto auténtica</li>
+        <li>• Gráfico comparativo</li>`;
+  }
+
+  // Actualizar estado de los botones
+  updateGenerateButtonState();
+  
+  // Guardar estado vacío
+  saveEditorState();
+
+  showToast('✅ Editor limpiado', 'info');
+  console.log('Editor State limpiado y reseteado.');
 }
 
 /**
@@ -253,7 +370,8 @@ async function generatePlatformContent(platform, title, content) {
   try {
     console.log(`Generando contenido para ${platform}...`);
     
-    const result = await window.KusiAPI.generateContent(platform, title, content);
+    // Pasar journalismMode al API
+    const result = await window.KusiAPI.generateContent(platform, title, content, editorState.journalismMode);
     
     if (result && typeof result.generated_content === 'string') { // Permitir string vacío
       console.log(`✅ Contenido generado para ${platform}`);
@@ -707,6 +825,7 @@ window.EditorJS = {
   analyzeAllQuality,
   humanizeAllContent,
   copyPlatformContent,
+  clearEditorState, // Add clearEditorState
   showToast
 };
 

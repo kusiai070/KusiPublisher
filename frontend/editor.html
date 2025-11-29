@@ -16,6 +16,81 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .journalism-toggle {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px; /* Adjust spacing as needed */
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .journalism-toggle .toggle-label {
+            margin-left: 10px;
+            font-size: 1rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 45px; /* Smaller width */
+            height: 25px; /* Smaller height */
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 25px; /* Make it round */
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 17px; /* Smaller circle */
+            width: 17px; /* Smaller circle */
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-color);
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--accent-color);
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(20px); /* Move smaller amount */
+            -ms-transform: translateX(20px);
+            transform: translateX(20px);
+        }
+    </style>
 </head>
 <body>
     <!-- Header Principal -->
@@ -48,6 +123,15 @@
                     >
                 </div>
                 
+                <!-- Botón de Modo Periodista -->
+                <div class="journalism-toggle form-group">
+                    <label class="switch">
+                        <input type="checkbox" id="journalism-mode-btn">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="toggle-label">Modo Periodista (Opinión)</span>
+                </div>
+                
                 <!-- Campo Contenido -->
                 <div class="form-group">
                     <label for="inputContent">Contenido Maestro</label>
@@ -77,6 +161,9 @@
                     </button>
                     <button id="btnOracle" class="btn btn-secondary">
                         🔮 Consultar Oráculo
+                    </button>
+                    <button id="btnClearEditor" class="btn btn-secondary">
+                        🗑️ Limpiar Editor
                     </button>
                 </div>
                 
@@ -126,6 +213,28 @@
                     </div>
                     <div class="preview-footer">
                         <button class="btn btn-copy" data-platform="linkedin">
+                            📋 Copiar
+                        </button>
+                        <div class="score-container">
+                            <span class="score-label">Score:</span>
+                            <div class="score-bar-container">
+                                <div class="score-bar" style="width: 0%;"></div>
+                            </div>
+                            <span class="score-value">0%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- LinkedIn Article Preview -->
+                <div id="card-linkedin_article" class="preview-card">
+                    <div class="preview-header">
+                        <h3><span class="platform-icon">📄</span> LinkedIn (Artículo) <span class="humanized-indicator" id="humanized-linkedin_article"></span></h3>
+                    </div>
+                    <div class="preview-content">
+                        Tu artículo optimizado para LinkedIn aparecerá aquí...
+                    </div>
+                    <div class="preview-footer">
+                        <button class="btn btn-copy" data-platform="linkedin_article">
                             📋 Copiar
                         </button>
                         <div class="score-container">

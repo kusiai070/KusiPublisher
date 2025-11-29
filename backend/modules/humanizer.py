@@ -1,5 +1,6 @@
 from typing import Dict, Any, List
 import json
+import re
 
 class Humanizer:
     def __init__(self, llm_manager):
@@ -47,11 +48,25 @@ class Humanizer:
         - Avoid forced or artificial additions
         
         Return both the humanized version and explanations of what was added/changed.
-        All response should be in Spanish.
+        Toda la respuesta debe estar en español.
         """
         
-        humanized_content = await self.llm.generate_content(prompt, max_tokens=2500, temperature=0.6)
+        humanized_content = await self.llm.generate_content(prompt, max_tokens=1500, temperature=0.6) # Reducir max_tokens
         
+        # Sanitiza la respuesta del LLM
+        # Extrae el contenido entre comillas dobles
+        match = re.search(r'"([^"]+)"', humanized_content)
+        if match:
+            extracted = match.group(1).strip()
+            # Verifica que no sea el texto template conocido
+            if "Confieso que, cuando hablamos de 'algoritmos', mi mente" in extracted:
+                # Usa el texto original como fallback
+                extracted = text
+            humanized_content = extracted
+        else:
+            # Si no encuentra comillas, usa el original
+            humanized_content = text
+
         # Analyze the humanization
         analysis = await self._analyze_humanization(text, humanized_content)
         
