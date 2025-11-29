@@ -22,30 +22,30 @@ class Humanizer:
             techniques = list(self.humanization_techniques.keys())
         
         prompt = f"""
-        Humanize the following content by adding authentic, engaging human elements:
+        Humaniza el siguiente contenido añadiendo elementos humanos auténticos y atractivos:
         
-        Original Text: "{text}"
+        Texto Original: "{text}"
         
-        Apply these humanization techniques: {', '.join(techniques)}
+        Aplica estas técnicas de humanización: {', '.join(techniques)}
         
         Humanization Guidelines:
-        1. **Personal Touch**: Add relatable experiences or observations
-        2. **Emotional Connection**: Include feelings and emotional responses
-        3. **Conversational Flow**: Make it sound like a natural conversation
-        4. **Authentic Voice**: Maintain genuine personality and tone
-        5. **Cultural Context**: Add relevant cultural references or context
-        6. **Vulnerability**: Include appropriate moments of uncertainty or learning
-        7. **Story Elements**: Weave in mini-narratives or scenarios
-        8. **Sensory Details**: Include sensory experiences when relevant
+        1. **Toque Personal**: Añade experiencias u observaciones con las que el lector pueda identificarse.
+        2. **Conexión Emocional**: Incluye sentimientos y respuestas emocionales.
+        3. **Fluidez Conversacional**: Haz que suene como una conversación natural.
+        4. **Voz Auténtica**: Mantén una personalidad y tono genuinos.
+        5. **Contexto Cultural**: Añade referencias culturales relevantes.
+        6. **Vulnerabilidad**: Incluye momentos apropiados de incertidumbre o aprendizaje.
+        7. **Elementos Narrativos**: Incorpora pequeñas narrativas o escenarios.
+        8. **Detalles Sensoriales**: Incluye experiencias sensoriales cuando sea relevante.
         
-        Voice Profile Context: {json.dumps(voice_profile) if voice_profile else "Use authentic, professional voice"}
+        Contexto del Perfil de Voz: {json.dumps(voice_profile) if voice_profile else "Usa una voz auténtica y profesional"}
         
         Requirements:
-        - Keep the core message intact
-        - Enhance rather than replace original content
-        - Maintain appropriate tone for the audience
-        - Add value through human connection
-        - Avoid forced or artificial additions
+        - Mantén el mensaje central intacto.
+        - Mejora en lugar de reemplazar el contenido original.
+        - Mantén un tono apropiado para la audiencia.
+        - Añade valor a través de la conexión humana.
+        - Evita adiciones forzadas o artificiales.
         
         Return both the humanized version and explanations of what was added/changed.
         Toda la respuesta debe estar en español.
@@ -83,23 +83,23 @@ class Humanizer:
         """Analyze the effectiveness of humanization"""
         
         prompt = f"""
-        Analyze the humanization effectiveness between these two texts:
+        Analiza la efectividad de la humanización entre estos dos textos:
         
         Original: "{original}"
         Humanized: "{humanized}"
         
         Evaluate:
-        1. **Emotional Enhancement**: How much more engaging/emotional is the humanized version?
-        2. **Relatability Increase**: Does it feel more personal and relatable?
-        3. **Conversational Improvement**: How much more natural/conversational?
-        4. **Authenticity Boost**: Does it feel more genuine and authentic?
-        5. **Story Elements**: What narrative elements were successfully added?
-        6. **Cultural Relevance**: How well do the cultural references work?
-        7. **Vulnerability/Realness**: Does it show appropriate vulnerability?
-        8. **Overall Impact**: How much more engaging is the humanized version?
+        1. **Mejora Emocional**: ¿Qué tan más atractiva/emocional es la versión humanizada?
+        2. **Aumento de Identificación**: ¿Se siente más personal e identificable?
+        3. **Mejora Conversacional**: ¿Qué tan más natural/conversacional es?
+        4. **Refuerzo de Autenticidad**: ¿Se siente más genuina y auténtica?
+        5. **Elementos Narrativos**: ¿Qué elementos narrativos se añadieron con éxito?
+        6. **Relevancia Cultural**: ¿Qué tan bien funcionan las referencias culturales?
+        7. **Vulnerabilidad/Realismo**: ¿Muestra una vulnerabilidad apropiada?
+        8. **Impacto General**: ¿Qué tan más atractiva es la versión humanizada en general?
         
-        Score each aspect 1-10 and provide specific examples of what worked well.
-        Also suggest any areas that could be further improved.
+        Califica cada aspecto del 1 al 10 y proporciona ejemplos específicos de lo que funcionó bien.
+        También sugiere áreas que podrían mejorarse.
         All response should be in Spanish.
         """
         
@@ -191,22 +191,22 @@ class Humanizer:
         """Add a relevant anecdote to the content"""
         
         prompt = f"""
-        Add a relevant, engaging anecdote to this content:
+        Añade una anécdota relevante y atractiva a este contenido:
         
-        Content: "{content}"
-        Topic: "{topic}"
-        Tone: "{tone}"
+        Contenido: "{content}"
+        Tema: "{topic}"
+        Tono: "{tone}"
         
         The anecdote should:
-        - Be relevant to the main topic
-        - Illustrate a key point effectively
-        - Be appropriate for the specified tone
-        - Be concise yet impactful
-        - Feel authentic and genuine
-        - Include a clear lesson or insight
+        - Ser relevante para el tema principal
+        - Ilustrar un punto clave de forma efectiva
+        - Ser apropiada para el tono especificado
+        - Ser concisa pero impactante
+        - Sentirse auténtica y genuina
+        - Incluir una lección o idea clara
         
-        Place the anecdote naturally within the content flow.
-        Return both the enhanced content and the anecdote separately.
+        Coloca la anécdota de forma natural dentro del flujo del contenido.
+        Devuelve tanto el contenido mejorado como la anécdota por separado.
         All response should be in Spanish.
         """
         
@@ -228,19 +228,18 @@ class Humanizer:
             "observational": "Observational humor about the topic"
         }
         
-        prompt = f"""
-        Add {humor_types.get(humor_type, 'subtle')} to this content:
+                prompt = f"""
+                Añade {humor_types.get(humor_type, 'sutil')} a este contenido:
         
-        Content: "{content}"
+                Contenido: "{content}"
         
-        Requirements:
-        - Keep it appropriate and professional
-        - Enhance rather than distract from the message
-        - Make it feel natural and unforced
-        - Consider the audience and context
-        - Use humor to make points more memorable
+                Requirements:
+                - Mantenlo apropiado y profesional.
+                - Mejora en lugar de distraer del mensaje.        - Haz que se sienta natural y sin forzar.
+        - Considera a la audiencia y el contexto.
+        - Usa el humor para hacer los puntos más memorables.
         
-        Integrate the humor smoothly into the existing content.
+        Integra el humor de forma fluida en el contenido existente.
         All response should be in Spanish.
         """
         
@@ -257,25 +256,25 @@ class Humanizer:
         """Add relevant cultural references"""
         
         prompt = f"""
-        Add relevant {reference_type} cultural references to this content:
+        Añade referencias culturales {reference_type} relevantes a este contenido:
         
-        Content: "{content}"
+        Contenido: "{content}"
         
         Types of references to consider:
-        - Current events or news (if appropriate)
-        - Popular culture (movies, books, music)
-        - Historical references
-        - Industry culture or memes
-        - Universal human experiences
+        - Eventos actuales o noticias (si es apropiado)
+        - Cultura popular (películas, libros, música)
+        - Referencias históricas
+        - Cultura de la industria o memes
+        - Experiencias humanas universales
         
         Requirements:
-        - References should enhance understanding
-        - Be relevant to the audience
-        - Not alienate or exclude readers
-        - Add value to the main message
-        - Feel natural in context
+        - Las referencias deben mejorar la comprensión.
+        - Ser relevantes para la audiencia.
+        - No alienar ni excluir a los lectores.
+        - Añadir valor al mensaje principal.
+        - Sentirse naturales en el contexto.
         
-        Integrate references thoughtfully and appropriately.
+        Integra las referencias de manera reflexiva y apropiada.
         All response should be in Spanish.
         """
         
@@ -292,25 +291,25 @@ class Humanizer:
         """Add emotional resonance to content"""
         
         prompt = f"""
-        Add {emotion_type} emotional connection to this content:
+        Añade una conexión emocional de {emotion_type} a este contenido:
         
-        Content: "{content}"
+        Contenido: "{content}"
         
         Emotional elements to include:
-        - Personal feelings and reactions
-        - Understanding of reader's emotions
-        - Emotional language and descriptors
-        - Empathetic responses
-        - Emotional journey or arc
+        - Sentimientos y reacciones personales
+        - Comprensión de las emociones del lector
+        - Lenguaje y descriptores emocionales
+        - Respuestas empáticas
+        - Viaje o arco emocional
         
         Requirements:
-        - Be authentic and genuine
-        - Connect with reader's likely emotions
-        - Use emotional language appropriately
-        - Create emotional resonance
-        - Maintain professionalism while being emotional
+        - Ser auténtico y genuino.
+        - Conectar con las emociones probables del lector.
+        - Usar el lenguaje emocional de manera apropiada.
+        - Crear resonancia emocional.
+        - Mantener el profesionalismo siendo emocional.
         
-        Enhance the emotional impact while keeping the core message intact.
+        Mejora el impacto emocional manteniendo el mensaje central intacto.
         All response should be in Spanish.
         """
         
@@ -338,22 +337,22 @@ class Humanizer:
         """Get a humanization score for content"""
         
         prompt = f"""
-        Analyze the humanization level of this content:
+        Analiza el nivel de humanización de este contenido:
         
-        Content: "{text}"
+        Contenido: "{text}"
         
         Evaluate on these criteria (1-10 scale):
-        1. Personal voice and authenticity
-        2. Emotional resonance
-        3. Conversational tone
-        4. Relatability
-        5. Storytelling elements
-        6. Cultural context
-        7. Vulnerability and realness
-        8. Engagement and connection
+        1. Voz personal y autenticidad
+        2. Resonancia emocional
+        3. Tono conversacional
+        4. Capacidad de identificación
+        5. Elementos narrativos
+        6. Contexto cultural
+        7. Vulnerabilidad y realismo
+        8. Compromiso y conexión
         
-        Provide specific examples from the text that support each score.
-        All response should be in Spanish.
+        Proporciona ejemplos específicos del texto que respalden cada puntuación.
+        Toda la respuesta debe estar en español.
         """
         
         analysis = await self.llm.generate_content(prompt, max_tokens=2000)

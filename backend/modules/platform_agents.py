@@ -7,9 +7,9 @@ class PlatformAgents:
         self.platform_specs = {
             "linkedin": {
                 "max_chars": 3000,
-                "ideal_chars": 150,
+                "ideal_chars": 1200,
                 "hashtag_limit": 5,
-                "tone": "professional",
+                "tone": "Storytelling Profesional y Cercano",
                 "features": ["articles", "posts", "polls", "documents"],
                 "best_practices": [
                     "Use professional language and tone",
@@ -38,9 +38,9 @@ class PlatformAgents:
             },
             "twitter": {
                 "max_chars": 280,
-                "ideal_chars": 100,
+                "ideal_chars": 250,
                 "hashtag_limit": 2,
-                "tone": "conversational",
+                "tone": "Directo, Convincente y Witty",
                 "features": ["tweets", "threads", "polls", "spaces"],
                 "best_practices": [
                     "Keep it concise and engaging",
@@ -54,9 +54,9 @@ class PlatformAgents:
             },
             "instagram": {
                 "max_chars": 2200,
-                "ideal_chars": 138,
+                "ideal_chars": 2000,
                 "hashtag_limit": 30,
-                "tone": "visual_storytelling",
+                "tone": "Narrativa con Gancho, Emojis y Espacios",
                 "features": ["posts", "stories", "reels", "igtv"],
                 "best_practices": [
                     "Focus on visual storytelling",
@@ -70,9 +70,9 @@ class PlatformAgents:
             },
             "facebook": {
                 "max_chars": 5000,
-                "ideal_chars": 80,
+                "ideal_chars": 500,
                 "hashtag_limit": 5,
-                "tone": "community_focused",
+                "tone": "Auténtico, Descriptivo y Centrado en la Comunidad",
                 "features": ["posts", "stories", "live", "groups"],
                 "best_practices": [
                     "Create content that sparks conversation",
@@ -86,9 +86,9 @@ class PlatformAgents:
             },
             "blog": {
                 "max_chars": 50000,
-                "ideal_chars": 1500,
+                "ideal_chars": 15000,
                 "hashtag_limit": 0,
-                "tone": "educational",
+                "tone": "Educativo, Profundo y Estructurado para SEO",
                 "features": ["articles", "guides", "tutorials", "reviews"],
                 "best_practices": [
                     "Write comprehensive, in-depth content",
@@ -110,6 +110,15 @@ class PlatformAgents:
         
         specs = self.platform_specs[platform]
         
+        # Platform-specific instructions
+        platform_instructions = []
+        if platform in ["linkedin", "instagram"]:
+            platform_instructions.append("- Use strategic line breaks to improve readability and visual appeal.")
+        if platform == "twitter":
+            platform_instructions.append("- Prioritize using the full character space available to maximize impact, without sacrificing clarity.")
+        
+        platform_instructions_str = "\n        ".join(platform_instructions) if platform_instructions else "No platform-specific instructions."
+
         prompt = f"""
         Analyze the original content and generate a new, optimized version for the {platform} platform.
         
@@ -122,6 +131,9 @@ class PlatformAgents:
         - Character Limit: Do not exceed {specs['max_chars']} characters.
         - Hashtags: Use up to {specs['hashtag_limit']} relevant hashtags.
         
+        # PLATFORM-SPECIFIC INSTRUCTIONS
+        {platform_instructions_str}
+
         # RESPONSE FORMAT
         You must provide your response as a single, valid JSON object with two keys: "explanations" and "optimized_content".
         - "explanations": A string briefly explaining the changes made.
