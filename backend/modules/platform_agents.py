@@ -149,8 +149,7 @@ class PlatformAgents:
         # Eliminar ``` del final
         response_text = re.sub(r'\s*```$', '', response_text)
         response_text = response_text.strip()
-        # --- FIN: Pre-procesamiento ---        
-        # Procesar la respuesta JSON del LLM de forma robusta
+        # --- FIN: Pre-procesamiento ---        # Procesar la respuesta JSON del LLM de forma robusta
         optimized_content = response_text # Fallback por defecto
         explanations = "Error al procesar la respuesta de la IA." # Fallback por defecto
         
@@ -175,6 +174,14 @@ class PlatformAgents:
             if json_str:
                 data = json.loads(json_str)
                 optimized_content = data.get("optimized_content", response_text)
+                # Fix para JSON anidado en optimized_content (Instagram issue)
+                if isinstance(optimized_content, str) and optimized_content.strip().startswith('{'):
+                    try:
+                        nested = json.loads(optimized_content)
+                        if "optimized_content" in nested:
+                            optimized_content = nested["optimized_content"]
+                    except:
+                        pass
                 explanations = data.get("explanations", "No se proporcionaron explicaciones.")
             else:
                 print(f"--- DEBUG: RAW RESPONSE para {platform} (primeros 500 chars): {response_text[:500]} ---")
