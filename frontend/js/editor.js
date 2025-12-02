@@ -8,6 +8,7 @@ let editorState = {
   content: '',
   platforms: {
     linkedin: null,
+    linkedin_article: null,
     twitter: null,
     instagram: null,
     facebook: null,
@@ -174,9 +175,22 @@ function handleContentChange(event) {
 function handleJournalismModeToggle(event) {
   editorState.journalismMode = event.target.checked;
   console.log('Modo Periodista:', editorState.journalismMode ? 'ACTIVADO' : 'DESACTIVADO');
-  // Aquí puedes añadir lógica adicional para actualizar la UI si es necesario
-  // Por ejemplo, cambiar el texto del label o el color del botón
-  showToast(editorState.journalismMode ? '✅ Modo Periodista ACTIVADO' : '❌ Modo Periodista DESACTIVADO', editorState.journalismMode ? 'success' : 'warning');
+  
+  // Ocultar/mostrar LinkedIn e Instagram según el modo
+  const linkedinCard = document.getElementById('card-linkedin');
+  const instagramCard = document.getElementById('card-instagram');
+  
+  if (editorState.journalismMode) {
+    // Modo periodista: ocultar LinkedIn e Instagram
+    if (linkedinCard) linkedinCard.style.display = 'none';
+    if (instagramCard) instagramCard.style.display = 'none';
+    showToast('✅ Modo Periodista ACTIVADO (LinkedIn Article, Blog, Twitter, Facebook)', 'success');
+  } else {
+    // Modo normal: mostrar todas las plataformas
+    if (linkedinCard) linkedinCard.style.display = 'block';
+    if (instagramCard) instagramCard.style.display = 'block';
+    showToast('❌ Modo Periodista DESACTIVADO (Todas las plataformas)', 'warning');
+  }
 }
 
 /**
@@ -490,9 +504,27 @@ function updatePreview(platform, contentData) {
   console.log(`DEBUG: contentElement para ${platform}:`, contentElement);
   console.log(`DEBUG: contentData.generated_content para ${platform}:`, contentData.generated_content);
 
+  // Fix para Instagram: Si generated_content parece ser JSON, extraer optimized_content
+  if (typeof contentData.generated_content === 'string' && contentData.generated_content.trim().startsWith('{')) {
+    try {
+      const parsed = JSON.parse(contentData.generated_content);
+      if (parsed.optimized_content) {
+        contentData.generated_content = parsed.optimized_content;
+      }
+    } catch (e) {
+      // Si no se puede parsear, dejar como está
+      console.log(`No se pudo parsear JSON para ${platform}, usando contenido original`);
+    }
+  }
+
   if (contentElement && typeof contentData.generated_content === 'string') { // Verificar el tipo para permitir string vacío
     console.log(`DEBUG: *** Actualizando preview con contenido para ${platform} ***`, contentData.generated_content.substring(0, 100) + '...');
-    contentElement.textContent = contentData.generated_content;
+    // Usar innerHTML para plataformas con formato HTML, textContent para el resto
+    if (platform === 'blog' || platform === 'linkedin_article') {
+      contentElement.innerHTML = contentData.generated_content;
+    } else {
+      contentElement.textContent = contentData.generated_content;
+    }
     
     // Actualizar el indicador de humanización
     if (humanizedIndicator) {

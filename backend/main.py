@@ -88,22 +88,23 @@ class ContentRequest(BaseModel):
 async def create_content(request: ContentRequest, db: Session = Depends(get_db)):
     print(f"\n--- DEBUG: Received request for /content ---")
     try:
+        optimized_content = ""
+        explanations = "No se pudo generar contenido."
+
         if request.journalism_mode:
             print(f"--- DEBUG: Journalism mode enabled for platform: {request.platform} ---")
             journalism_agent = app.state.modules["journalism"]
-            # For journalism mode, we use the original_text as topic for generation
             generated = await journalism_agent.generate_journalistic_content(
                 topic=request.original_text, 
                 platform=request.platform,
-                style="opinion" # User specified "opinion" style
+                style="opinion"
             )
-            optimized_content = generated["content"]
-            explanations = f"Contenido periodístico generado en estilo: {generated['style']}"
-            
+            optimized_content = generated.get("content", "")
+            explanations = f"Contenido periodístico generado en estilo: {generated.get('style', 'desconocido')}"
         else:
-            # Generar contenido optimizado con LLM
             platform_agents = app.state.modules["platform_agents"]
             print(f"--- DEBUG: Calling optimize_for_platform with original_text (first 50 chars): {request.original_text[:50]}... and platform: {request.platform} ---")
+            # `optimized` ahora es un diccionario estandarizado: {"optimized_content": "...", "explanations": "..."}
             optimized = await platform_agents.optimize_for_platform(
                 request.original_text, 
                 request.platform
@@ -113,8 +114,10 @@ async def create_content(request: ContentRequest, db: Session = Depends(get_db))
             print(f"Content (first 200 chars): {str(optimized)[:200]}")
             print(f"Keys (if dict): {optimized.keys() if isinstance(optimized, dict) else 'N/A'}")
             print(f"--- DEBUG: optimize_for_platform returned optimized optimized content. ---")
-            optimized_content = optimized.get("optimized_content", request.original_text)
-            explanations = optimized.get("explanations", "Contenido optimizado para la plataforma.")
+            
+            # Extraemos los valores de forma segura del diccionario estandarizado
+            optimized_content = optimized.get("optimized_content", "")
+            explanations = optimized.get("explanations", "No se proporcionaron explicaciones.")
         
         # Guardar en DB con contenido generado
         content = crud.create_content_piece(
@@ -129,19 +132,16 @@ async def create_content(request: ContentRequest, db: Session = Depends(get_db))
         content.current_text = optimized_content
         content.metadata = {"explanations": explanations, "journalism_mode": request.journalism_mode}
         
-        print(f"=== GUARDANDO EN DB ===")
-        print(f"current_text (first 200): {content.current_text[:200]}")
-        
         db.commit()
         db.refresh(content)
         print(f"--- DEBUG: Content created and optimized. ---")
         
         print(f"=== RESPONSE ===")
-        print(f"generated_content: {content.current_text[:200]}")
+        print(f"generated_content: {optimized_content[:200]}") # Imprimir directamente el string
 
         return {
             "id": content.id,
-            "generated_content": content.current_text,
+            "generated_content": optimized_content,  # ← DEVOLVER EL STRING DIRECTAMENTE
             "platform": content.platform,
             "title": content.title,
             "explanations": explanations
@@ -254,74 +254,12 @@ async def get_content_history(content_id: int, db: Session = Depends(get_db)):
     return history
 
 # Performance metrics
-@app.post("/metrics")
-async def save_metrics(
-    content_piece_id: int,
-    platform: str,
-    impressions: int,
-    engagement: int,
-    clicks: int,
-    shares: int,
-    db: Session = Depends(get_db)
-):
-    metric = models.PerformanceMetrics(
-        content_piece_id=content_piece_id,
-        platform=platform,
-        impressions=impressions,
-        engagement=engagement,
-        clicks=clicks,
-        shares=shares
-    )
-    db.add(metric)
-    db.commit()
-    db.refresh(metric)
-    return metric
-
-@app.get("/metrics/summary")
-async def get_metrics_summary():
-    """
-    Returns a summary of key performance metrics for the dashboard.
-    (Currently returns dummy data)
-    """
-    return {
-        "total_content": 156,
-        "published_content": 89,
-        "average_quality_score": 87,
-        "content_this_week": 12,
-        "total_content_change": "+12%",
-        "published_content_change": "+8%"
-    }
 
 
-@app.get("/content/recent")
-async def get_recent_content():
-    """
-    Returns a list of recently generated/published content.
-    (Currently returns dummy data)
-    """
-    return [
-        {
-            "id": 1,
-            "title": "📘 LinkedIn post about AI trends",
-            "platform": "LinkedIn",
-            "status": "publicado",
-            "timestamp": "Hace 2 horas"
-        },
-        {
-            "id": 2,
-            "title": "📝 Blog outline for SEO strategies",
-            "platform": "Blog",
-            "status": "borrador",
-            "timestamp": "Hace 4 horas"
-        },
-        {
-            "id": 3,
-            "title": "🐦 Twitter thread about productivity",
-            "platform": "Twitter",
-            "status": "publicado",
-            "timestamp": "Ayer"
-        }
-    ]
+
+
+
+
 
 if __name__ == "__main__":
     import uvicorn
