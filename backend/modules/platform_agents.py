@@ -7,9 +7,9 @@ class PlatformAgents:
         self.platform_specs = {
             "linkedin": {
                 "max_chars": 3000,
-                "ideal_chars": 1200,
+                "ideal_chars": 500,
                 "hashtag_limit": 5,
-                "tone": "Storytelling Profesional y Cercano",
+                "tone": "professional",
                 "features": ["articles", "posts", "polls", "documents"],
                 "best_practices": [
                     "Use professional language and tone",
@@ -40,7 +40,7 @@ class PlatformAgents:
                 "max_chars": 280,
                 "ideal_chars": 250,
                 "hashtag_limit": 2,
-                "tone": "Directo, Convincente y Witty",
+                "tone": "conversational",
                 "features": ["tweets", "threads", "polls", "spaces"],
                 "best_practices": [
                     "Keep it concise and engaging",
@@ -54,9 +54,9 @@ class PlatformAgents:
             },
             "instagram": {
                 "max_chars": 2200,
-                "ideal_chars": 2000,
+                "ideal_chars": 800,
                 "hashtag_limit": 30,
-                "tone": "Narrativa con Gancho, Emojis y Espacios",
+                "tone": "visual_storytelling",
                 "features": ["posts", "stories", "reels", "igtv"],
                 "best_practices": [
                     "Focus on visual storytelling",
@@ -72,7 +72,7 @@ class PlatformAgents:
                 "max_chars": 5000,
                 "ideal_chars": 500,
                 "hashtag_limit": 5,
-                "tone": "Auténtico, Descriptivo y Centrado en la Comunidad",
+                "tone": "community_focused",
                 "features": ["posts", "stories", "live", "groups"],
                 "best_practices": [
                     "Create content that sparks conversation",
@@ -86,9 +86,9 @@ class PlatformAgents:
             },
             "blog": {
                 "max_chars": 50000,
-                "ideal_chars": 15000,
+                "ideal_chars": 3000,
                 "hashtag_limit": 0,
-                "tone": "Educativo, Profundo y Estructurado para SEO",
+                "tone": "educational",
                 "features": ["articles", "guides", "tutorials", "reviews"],
                 "best_practices": [
                     "Write comprehensive, in-depth content",
@@ -110,15 +110,6 @@ class PlatformAgents:
         
         specs = self.platform_specs[platform]
         
-        # Platform-specific instructions
-        platform_instructions = []
-        if platform in ["linkedin", "instagram"]:
-            platform_instructions.append("- Use strategic line breaks to improve readability and visual appeal.")
-        if platform == "twitter":
-            platform_instructions.append("- Prioritize using the full character space available to maximize impact, without sacrificing clarity.")
-        
-        platform_instructions_str = "\n        ".join(platform_instructions) if platform_instructions else "No platform-specific instructions."
-
         prompt = f"""
         Analyze the original content and generate a new, optimized version for the {platform} platform.
         
@@ -131,9 +122,6 @@ class PlatformAgents:
         - Character Limit: Do not exceed {specs['max_chars']} characters.
         - Hashtags: Use up to {specs['hashtag_limit']} relevant hashtags.
         
-        # PLATFORM-SPECIFIC INSTRUCTIONS
-        {platform_instructions_str}
-
         # RESPONSE FORMAT
         You must provide your response as a single, valid JSON object with two keys: "explanations" and "optimized_content".
         - "explanations": A string briefly explaining the changes made.
@@ -152,14 +140,16 @@ class PlatformAgents:
             temperature_llm = 0.5
         response_text = await self.llm.generate_content(prompt, max_tokens=max_tokens_llm, temperature=temperature_llm)
         
-        # --- INICIO: Pre-procesamiento para limpiar markdown de la respuesta de Gemini (Solución Claude) ---
-        # Eliminar posibles envoltorios de ```json o ``` del inicio y fin
-        if response_text.strip().startswith('```') and response_text.strip().endswith('```'):
-            response_text = response_text.strip()[3:-3].strip() # Remover ``` del inicio y fin
-            if response_text.startswith('json'): # Si después de remover ```, empieza con 'json', quitarlo
-                response_text = response_text[4:].strip()
-        # --- FIN: Pre-procesamiento ---
-        
+        # --- INICIO: Pre-procesamiento mejorado para limpiar markdown ---
+        import re
+        response_text = response_text.strip()
+        # Eliminar ```json del inicio (con/sin salto de línea)
+        response_text = re.sub(r'^```json\s*', '', response_text)
+        response_text = re.sub(r'^```\s*', '', response_text)
+        # Eliminar ``` del final
+        response_text = re.sub(r'\s*```$', '', response_text)
+        response_text = response_text.strip()
+        # --- FIN: Pre-procesamiento ---        
         # Procesar la respuesta JSON del LLM de forma robusta
         optimized_content = response_text # Fallback por defecto
         explanations = "Error al procesar la respuesta de la IA." # Fallback por defecto

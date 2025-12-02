@@ -30,12 +30,12 @@ class Humanizer:
         
         Humanization Guidelines:
         1. **Toque Personal**: Añade experiencias u observaciones con las que el lector pueda identificarse.
-        2. **Conexión Emocional**: Incluye sentimientos y respuestas emocionales.
+        2. **Conexión con el Lector**: Incluye sentimientos y respuestas emocionales.
         3. **Fluidez Conversacional**: Haz que suene como una conversación natural.
         4. **Voz Auténtica**: Mantén una personalidad y tono genuinos.
         5. **Contexto Cultural**: Añade referencias culturales relevantes.
-        6. **Vulnerabilidad**: Incluye momentos apropiados de incertidumbre o aprendizaje.
-        7. **Elementos Narrativos**: Incorpora pequeñas narrativas o escenarios.
+        6. **Transparencia**: Incluye momentos apropiados de incertidumbre o aprendizaje.
+        7. **Historias Breves**: Incorpora pequeñas narrativas o escenarios.
         8. **Detalles Sensoriales**: Incluye experiencias sensoriales cuando sea relevante.
         
         Contexto del Perfil de Voz: {json.dumps(voice_profile) if voice_profile else "Usa una voz auténtica y profesional"}
@@ -93,9 +93,9 @@ class Humanizer:
         2. **Aumento de Identificación**: ¿Se siente más personal e identificable?
         3. **Mejora Conversacional**: ¿Qué tan más natural/conversacional es?
         4. **Refuerzo de Autenticidad**: ¿Se siente más genuina y auténtica?
-        5. **Elementos Narrativos**: ¿Qué elementos narrativos se añadieron con éxito?
+        5. **Historias Breves**: ¿Qué elementos narrativos se añadieron con éxito?
         6. **Relevancia Cultural**: ¿Qué tan bien funcionan las referencias culturales?
-        7. **Vulnerabilidad/Realismo**: ¿Muestra una vulnerabilidad apropiada?
+        7. **Transparencia/Realismo**: ¿Muestra una vulnerabilidad apropiada?
         8. **Impacto General**: ¿Qué tan más atractiva es la versión humanizada en general?
         
         Califica cada aspecto del 1 al 10 y proporciona ejemplos específicos de lo que funcionó bien.
@@ -228,17 +228,16 @@ class Humanizer:
             "observational": "Observational humor about the topic"
         }
         
-                prompt = f"""
-                Añade {humor_types.get(humor_type, 'sutil')} a este contenido:
-        
-                Contenido: "{content}"
-        
-                Requirements:
-                - Mantenlo apropiado y profesional.
-                - Mejora en lugar de distraer del mensaje.        - Haz que se sienta natural y sin forzar.
+        prompt = f"""Añade {humor_types.get(humor_type, 'sutil')} a este contenido:
+
+        Contenido: "{content}"
+
+        Requirements:
+        - Mantenlo apropiado y profesional.
+        - Mejora en lugar de distraer del mensaje.
+        - Haz que se sienta natural y sin forzar.
         - Considera a la audiencia y el contexto.
         - Usa el humor para hacer los puntos más memorables.
-        
         Integra el humor de forma fluida en el contenido existente.
         All response should be in Spanish.
         """
@@ -348,7 +347,7 @@ class Humanizer:
         4. Capacidad de identificación
         5. Elementos narrativos
         6. Contexto cultural
-        7. Vulnerabilidad y realismo
+        7. Transparencia y realismo
         8. Compromiso y conexión
         
         Proporciona ejemplos específicos del texto que respalden cada puntuación.
