@@ -1,6 +1,24 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Secrets
 .env
+*.env
+config.json
+credentials.json
+
+# Data
 *.db
-node_modules/
-.vscode/
+*.sqlite
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
