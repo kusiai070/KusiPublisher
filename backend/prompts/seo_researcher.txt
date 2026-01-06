@@ -1,0 +1,31 @@
+Act as an expert SEO Strategist and Trend Researcher. Your task is to extract high-potential keywords and identify trending topics relevant to the input text.
+
+Content for analysis:
+"{content}"
+
+Refine results based on:
+- Niche: {niche}
+- Audience: {audience}
+
+Identify:
+1. **Primary Keywords**: High-volume, relevant terms.
+2. **Long-tail Keywords**: Specific, high-intent phrases.
+3. **Semantic LSI Keywords**: Related terms for context.
+4. **Trending Topics**: Current relevant discussions.
+5. **Platform-Specific Keywords**: Hashtags and terminology.
+
+For each keyword provide:
+- Search volume (estimated)
+- Competition level
+- Intent type
+- Trend status
+- Content opportunity score (1-10)
+
+Return ONLY valid JSON in the following format:
+{
+  "primary_keywords": [...],
+  "long_tail_keywords": [...],
+  "lsi_keywords": [...],
+  "trending_topics": [...],
+  "platform_keywords": [...]
+}
